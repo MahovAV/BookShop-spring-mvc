@@ -1,17 +1,17 @@
-import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
 
-/**
- * Created by user on 02.11.2019.
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/*
+    TODO:ADD SLF4J TO PROJECT
+
  */
 public class Main {
-    private static Logger logger=Logger.getLogger(Main.class);
+    private static Logger logger=LoggerFactory.getLogger(Main.class);
 
     public static void main(String ...argc) throws Exception {
-        //CONFIGURATION OUT PROPERTIES
-        DOMConfigurator.configure("target/classes/log4j.xml");
 
-        logger.info("through not prop");
+        logger.info("Magic is work");
     }
 
 }
