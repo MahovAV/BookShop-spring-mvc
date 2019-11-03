@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - BASE@localhost" uuid="8380a3f2-5c7f-40e1-a300-45aee0bedb51">
+    <database-info product="MySQL" version="8.0.18" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.47 ( Revision: fe1903b1ecb4a96a917f7ed3190d80c049b1de29 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.4">
+      <schema id="1" name="base"/>
+      <table id="2" parent="1" name="hibernate_sequence"/>
+      <table id="3" parent="1" name="personentity"/>
+      <column id="4" parent="2" name="next_val">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="5" parent="3" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="6" parent="3" name="name">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="7" parent="3" name="password">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <key id="8" parent="3" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+    </database-model>
+  </data-source>
+</component>
