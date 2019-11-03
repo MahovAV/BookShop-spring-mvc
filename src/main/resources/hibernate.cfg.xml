@@ -17,5 +17,8 @@
 
         <property name="hbm2ddl.auto">create</property >
 
+        <mapping class="Domain.PersonData"></mapping>
+        <mapping class="Domain.PersonEntity"></mapping>
+
     </session-factory>
 </hibernate-configuration>

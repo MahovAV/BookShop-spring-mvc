@@ -14,12 +14,22 @@ public class PersonEntity {
     @GeneratedValue
     private int id;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "data_id",unique = true)
+    private PersonData data;
+
     private String password;
 
     private String name;
 
 
+    public PersonData getData() {
+        return data;
+    }
 
+    public void setData(PersonData data) {
+        this.data = data;
+    }
 
     public String getPassword() {
         return password;
