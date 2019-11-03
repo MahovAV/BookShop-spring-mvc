@@ -1,4 +1,5 @@
 
+import DAO.ManyToOne;
 import DAO.PersonDao;
 import Domain.PersonData;
 import Domain.PersonEntity;
@@ -7,7 +8,15 @@ import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import Domain.Flat;
+import Domain.tenant;
+
+import java.util.HashSet;
+import java.util.Set;
+
 /*
+    TODO ADD VALIDATION MECHANIZM
+    TODO ADD COMPOSITE
     TODO ADD OTHER OWNER OF DATA(WORKER)
     TODO ADD CHANGE CASCADE METHODE
     TODO ADD  ONE TO MANY PERSON THINGS
@@ -15,6 +24,8 @@ import org.slf4j.LoggerFactory;
     todo add registration and logging
 
  */
+
+
 public class Main {
     private static Logger logger=LoggerFactory.getLogger(Main.class);
     private static SessionFactory factorySession;
@@ -23,25 +34,26 @@ public class Main {
 
 
         Configuration configuration = new Configuration().configure();
-        configuration.addAnnotatedClass(PersonEntity.class);
-        configuration.addAnnotatedClass(PersonData.class);
+        configuration.addAnnotatedClass(tenant.class);
+        configuration.addAnnotatedClass(Flat.class);
         factorySession = configuration.buildSessionFactory();
         logger.info("Connection SUCCESS");
     }
 
     public static void main(String ...argc) throws Exception {
-        PersonEntity person=new PersonEntity();
+        Flat flat=new Flat("pole");
 
-        PersonData data=new PersonData();
-        data.setAdress("somePlace");
-        data.setHabits("code");
+        tenant person1=new tenant("sasha");
+        tenant person2=new tenant("dan");
+        tenant person3=new tenant("jack");
 
-        person.setName("sana");
-        person.setPassword("1234");
-        person.setData(data);
+        Set<tenant> tenants=new HashSet<tenant>();
+        tenants.add(person1);
+        tenants.add(person2);
+        tenants.add(person3);
 
-        PersonDao dao=new PersonDao(factorySession);
-        dao.add(person);
+        ManyToOne dao=new ManyToOne(factorySession);
+        dao.addFlat(flat,tenants);
     }
 
 }
