@@ -17,11 +17,11 @@ public class tenant {
         this.name=name;
     }
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "flat_id")
-    private Flat flat;
+    private FlatWhichCouldWorkWithTenant flat;
 
-
+    tenant(){}
 
     public int getId() {
         return id;
@@ -39,11 +39,13 @@ public class tenant {
         this.name = name;
     }
 
-    public Flat getFlat() {
+    public FlatWhichCouldWorkWithTenant getFlat() {
         return flat;
     }
 
-    public void setFlat(Flat flat) {
+    public void setFlat(FlatWhichCouldWorkWithTenant flat) {
         this.flat = flat;
     }
+
+
 }

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  */
 public class abstractDao {
     //keeping all data for working with database
-    protected static Logger logger= LoggerFactory.getLogger(PersonDao.class);
+    protected static Logger logger= LoggerFactory.getLogger(abstractDao.class);
     protected SessionFactory factory=null;
     protected Session session=null;
     public abstractDao(SessionFactory factory) {

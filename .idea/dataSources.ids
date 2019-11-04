@@ -8,92 +8,44 @@
     <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
     <database-model serializer="dbm" rdbms="MYSQL" format-version="2.4">
       <schema id="1" name="base"/>
-      <table id="2" parent="1" name="flat"/>
+      <table id="2" parent="1" name="flatwhichcouldworkwithtenant"/>
       <table id="3" parent="1" name="hibernate_sequence"/>
-      <table id="4" parent="1" name="persondata"/>
-      <table id="5" parent="1" name="personentity"/>
-      <table id="6" parent="1" name="tenant"/>
-      <column id="7" parent="2" name="id">
+      <table id="4" parent="1" name="tenant"/>
+      <column id="5" parent="2" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="8" parent="2" name="adress">
+      <column id="6" parent="2" name="adress">
         <data-type>varchar(255)</data-type>
       </column>
-      <key id="9" parent="2" name="PRIMARY">
+      <key id="7" parent="2" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="10" parent="3" name="next_val">
+      <column id="8" parent="3" name="next_val">
         <data-type>bigint(20)</data-type>
       </column>
-      <column id="11" parent="4" name="id">
+      <column id="9" parent="4" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="12" parent="4" name="adress">
+      <column id="10" parent="4" name="name">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="13" parent="4" name="habits">
-        <data-type>varchar(255)</data-type>
-      </column>
-      <key id="14" parent="4" name="PRIMARY">
-        <columns>id</columns>
-        <primary>1</primary>
-      </key>
-      <column id="15" parent="5" name="id">
-        <mandatory>1</mandatory>
+      <column id="11" parent="4" name="flat_id">
         <data-type>int(11)</data-type>
       </column>
-      <column id="16" parent="5" name="name">
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="17" parent="5" name="password">
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="18" parent="5" name="data_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <index id="19" parent="5" name="UK_assr3893cap1h5pnlr77i42jd">
-        <columns>data_id</columns>
-        <desc-columns></desc-columns>
-        <unique>1</unique>
-      </index>
-      <key id="20" parent="5" name="PRIMARY">
-        <columns>id</columns>
-        <primary>1</primary>
-      </key>
-      <key id="21" parent="5" name="UK_assr3893cap1h5pnlr77i42jd">
-        <columns>data_id</columns>
-        <underlying-index>UK_assr3893cap1h5pnlr77i42jd</underlying-index>
-      </key>
-      <foreign-key id="22" parent="5" name="FK5l6yvv47jeuudoq2ki4f64qxu">
-        <columns>data_id</columns>
-        <ref-key>~.persondata.PRIMARY</ref-key>
-        <cascade-update-rule>restrict</cascade-update-rule>
-        <cascade-delete-rule>restrict</cascade-delete-rule>
-      </foreign-key>
-      <column id="23" parent="6" name="id">
-        <mandatory>1</mandatory>
-        <data-type>int(11)</data-type>
-      </column>
-      <column id="24" parent="6" name="name">
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="25" parent="6" name="flat_id">
-        <data-type>int(11)</data-type>
-      </column>
-      <index id="26" parent="6" name="FK1el9v0v1ob8v2pp4ahfk4utl9">
+      <index id="12" parent="4" name="FKmtd5a3cvtftqym70nkoivc6nq">
         <columns>flat_id</columns>
         <desc-columns></desc-columns>
       </index>
-      <key id="27" parent="6" name="PRIMARY">
+      <key id="13" parent="4" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="28" parent="6" name="FK1el9v0v1ob8v2pp4ahfk4utl9">
+      <foreign-key id="14" parent="4" name="FKmtd5a3cvtftqym70nkoivc6nq">
         <columns>flat_id</columns>
-        <ref-key>~.flat.PRIMARY</ref-key>
+        <ref-key>~.flatwhichcouldworkwithtenant.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
