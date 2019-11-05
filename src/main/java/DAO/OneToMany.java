@@ -117,23 +117,23 @@ public class OneToMany extends abstractDao {
             }
         }
     }
-    public void relocateFromFlatToFlat(FlatWhichCouldWorkWithTenant flat1,FlatWhichCouldWorkWithTenant flat2){
+    public void relocateFromFlatToFlat(FlatWhichCouldWorkWithTenant flat1,FlatWhichCouldWorkWithTenant flat2) {
 
-        try{
+        try {
 
             logger.info("session is open");
-            session=factory.openSession();
+            session = factory.openSession();
 
             session.getTransaction().begin();
             //getting and chaging pojo
             //should write validation
-            FlatWhichCouldWorkWithTenant flat1rep=session.get(FlatWhichCouldWorkWithTenant.class,flat1.getId());
+            FlatWhichCouldWorkWithTenant flat1rep = session.get(FlatWhichCouldWorkWithTenant.class, flat1.getId());
 
-            FlatWhichCouldWorkWithTenant flat2rep=session.get(FlatWhichCouldWorkWithTenant.class,flat2.getId());
+            FlatWhichCouldWorkWithTenant flat2rep = session.get(FlatWhichCouldWorkWithTenant.class, flat2.getId());
 
 
-            Set<tenant> tenants=flat1rep.getTenants();
-            for(tenant t:tenants){
+            Set<tenant> tenants = flat1rep.getTenants();
+            for (tenant t : tenants) {
                 t.setFlat(flat2rep);
             }
             flat2rep.addTenn(tenants);
@@ -142,12 +142,31 @@ public class OneToMany extends abstractDao {
             session.getTransaction().commit();
 
         } finally {
-            if (session!=null) {
+            if (session != null) {
                 logger.info("session is closed");
                 session.close();
             }
         }
+    }
+    public void DeketeFlat(FlatWhichCouldWorkWithTenant flat){
+        try{
+
+        logger.info("session is open");
+        session=factory.openSession();
+        session.getTransaction().begin();
+
+        FlatWhichCouldWorkWithTenant flatrep=session.get(FlatWhichCouldWorkWithTenant.class,flat.getId());
 
 
+            session.delete(flatrep);
+
+        session.getTransaction().commit();
+
+    } finally {
+        if (session!=null) {
+            logger.info("session is closed");
+            session.close();
+        }
+    }
     }
 }

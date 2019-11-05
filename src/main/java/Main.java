@@ -70,6 +70,11 @@ public class Main {
         dao.renameAllTenant(flat2,"ASSHOLE");
 
         dao.relocateFromFlatToFlat(flat2,flat1);
+
+        dao.DeketeFlat(flat2);
+
+        dao.DeketeFlat(flat1);
+
     }
 
 }
