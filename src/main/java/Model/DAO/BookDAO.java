@@ -131,4 +131,24 @@ public class BookDAO extends abstractDao {
         }
         return Data;
     }
+
+    public void update(Book book){
+        try {
+        session = factory.openSession();
+        session.getTransaction().begin();
+            Book oldBook=session.get(Book.class,book.getId());
+            Set<Author> oldAuthors=oldBook.getAuthors();
+            Set<Author> NewAuthors=book.getAuthors();
+            for(Author a:oldAuthors){
+                if(NewAuthors==null||!NewAuthors.contains(a)){
+                    //should change author and merge him
+                    a.deleteBook(book);
+                }
+            }
+            session.merge(book);
+        session.getTransaction().commit();
+    } finally {
+        session.disconnect();
+    }
+    }
 }

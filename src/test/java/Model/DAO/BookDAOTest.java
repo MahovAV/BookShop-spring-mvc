@@ -1,9 +1,9 @@
 package Model.DAO;
 
 import Model.Domain.Book;
-import Model.Domain.TypeEnum;
 import Model.Domain.addres;
 import Model.Domain.Author;
+import Model.Domain.enumOfGenres;
 import Model.Service.BookShopService;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -23,6 +23,8 @@ public class BookDAOTest {
     private static Configuration configuration;
     private static SessionFactory factorySession;
     private static BookShopService bookShopService;
+    //// TODO: 15.11.2019 make method which will return us object also needed
+    // pathern command
 
     @Test
     public void WithouAuthor(){
@@ -58,11 +60,9 @@ public class BookDAOTest {
         book.getNameOfCustommers().add("WOLTER");
 
         Author marks=new Author("marks");
-        marks.setGenre(TypeEnum.ADVENTURE);
         marks.setAddres(new addres("USA"));
 
         Author oryell=new Author("Pushkin");
-        marks.setGenre(TypeEnum.ROMANS);
         marks.setAddres(new addres("Russia"));
 
         book.getAuthors().add(marks);
@@ -99,17 +99,14 @@ public class BookDAOTest {
         book2.getNameOfCustommers().add("Jack");
 
         Author marks=new Author("marks");
-        marks.setGenre(TypeEnum.ADVENTURE);
         marks.setAddres(new addres("USA"));
 
         Author oryell=new Author("oryell");
-        oryell.setGenre(TypeEnum.ROMANS);
         oryell.setAddres(new addres("Russia"));
 
         Author CopyOfMarks1=marks;
 
         Author CreatedCopyOfMarks=new Author("marks");
-        CreatedCopyOfMarks.setGenre(TypeEnum.ADVENTURE);
         CreatedCopyOfMarks.setAddres(new addres("Created"));
 
         book.getAuthors().add(marks);
@@ -148,5 +145,45 @@ public class BookDAOTest {
             }
         }
     }
+    @Test
+    public void UpdateTest(){
+        BookShopService shopService=BookDAOTest.getService();
 
+        Book book=new Book("1984",new ArrayList<String>());
+        book.setGenre(new HashSet<enumOfGenres>(Arrays.asList(enumOfGenres.ADVENTURE,enumOfGenres.HORROR)));
+        Author marks=new Author("marks");
+        marks.setAddres(new addres("USA"));
+        book.setAuthors(new HashSet<Author>(Arrays.asList(marks)));
+        //was
+        shopService.createBook(book);
+        //delete author(bot not from database!!!),delete 1 GENRE
+        //add new genre
+
+        book.removeAuthor(marks);
+        book.setGenre(new HashSet<enumOfGenres>(Arrays.asList(enumOfGenres.ROMANS)));
+
+
+        //Should have:1.marks in data base and have no link to book
+        //2.book from data base and book POJO are equivalent
+        shopService.updateBook(book);
+
+        List<Author> authors=shopService.GetAllAuthors();
+        Assert.assertEquals(1,authors.size());
+        Assert.assertEquals(authors.get(0).getBooks().size(),0);
+        //should check book
+
+        Assert.assertTrue(book.equals(shopService.getById(book.getId())));
+
+
+        //there is no changes should have the same result
+
+    }
+
+    public static BookShopService getService(){
+        configuration = new Configuration().configure();
+        configuration.addAnnotatedClass(Book.class);
+        configuration.addAnnotatedClass(Author.class);
+        factorySession = configuration.buildSessionFactory();
+        return new BookShopService(factorySession);
+    }
 }

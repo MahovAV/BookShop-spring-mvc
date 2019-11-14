@@ -9,15 +9,18 @@
     <table>
         <tr>
             <td>id</td>
-            <td>name</td>
+            <td>name</td>]
+            <td>Change books(ADMIN ONLY!)</td>
         </tr>
 
-    <#list books as book>
-    <tr>
-        <td>${book.id}</td>
-        <td>${book.name}</td>
-    <tr>
-    </#list>
+        <#list books as book>
+        <tr>
+            <td>${book.id}</td>
+            <td>${book.name}</td>
+            <td><a href="/ChangeBook/${book.id}">change</a></td>
+            <!--Sending book id as path variable-->
+        <tr>
+        </#list>
     </table>
 </body>
 </html>

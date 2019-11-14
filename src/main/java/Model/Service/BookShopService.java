@@ -42,4 +42,8 @@ public class BookShopService {
     public List<Author> GetAllAuthors(){
         return authorDAO.getAll();
     }
+
+    public void updateBook(Book book){
+        bookDAO.update(book);
+    }
 }

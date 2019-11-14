@@ -36,7 +36,7 @@ public class Author {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "mappedByAuthors",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "Authors",fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     Set<Book> books=new HashSet<Book>();
 
     @Override
@@ -47,7 +47,7 @@ public class Author {
         //the same class and not null =>could cast
         Author author = (Author) obj;
 
-        //in our case 2 authoes are equal when names are equals
+        //in our case 2 authores are equal when names are equals
 
         if(this.name==author.name)
             return true;
@@ -84,4 +84,7 @@ public class Author {
         this.books = books;
     }
 
+    public void deleteBook(Book book){
+        books.remove(book);
+    }
 }

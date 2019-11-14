@@ -11,15 +11,13 @@
       <table id="2" parent="1" name="author"/>
       <table id="3" parent="1" name="book"/>
       <table id="4" parent="1" name="book_author"/>
-      <table id="5" parent="1" name="book_nameofcustommers"/>
-      <column id="6" parent="2" name="id">
+      <table id="5" parent="1" name="book_genre"/>
+      <table id="6" parent="1" name="book_nameofcustommers"/>
+      <column id="7" parent="2" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="7" parent="2" name="place">
-        <data-type>varchar(255)</data-type>
-      </column>
-      <column id="8" parent="2" name="Author_Genre">
+      <column id="8" parent="2" name="place">
         <data-type>varchar(255)</data-type>
       </column>
       <column id="9" parent="2" name="Author_Name">
@@ -73,14 +71,31 @@ author</columns>
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <column id="21" parent="5" name="NameOfCustommers">
+      <column id="21" parent="5" name="genre">
         <data-type>varchar(255)</data-type>
       </column>
-      <index id="22" parent="5" name="FKfyyelwapggopj2p311s5jnnua">
+      <index id="22" parent="5" name="FKcit06s09xea1fmns02t2hvksu">
         <columns>Book_Another_Id</columns>
         <desc-columns></desc-columns>
       </index>
-      <foreign-key id="23" parent="5" name="FKfyyelwapggopj2p311s5jnnua">
+      <foreign-key id="23" parent="5" name="FKcit06s09xea1fmns02t2hvksu">
+        <columns>Book_Another_Id</columns>
+        <ref-key>~.book.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="24" parent="6" name="Book_Another_Id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="25" parent="6" name="NameOfCustommers">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <index id="26" parent="6" name="FKfyyelwapggopj2p311s5jnnua">
+        <columns>Book_Another_Id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <foreign-key id="27" parent="6" name="FKfyyelwapggopj2p311s5jnnua">
         <columns>Book_Another_Id</columns>
         <ref-key>~.book.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>

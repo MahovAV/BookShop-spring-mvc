@@ -24,17 +24,19 @@ public class Book {
     private Collection<String> NameOfCustommers;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "Book_Author",
                joinColumns = {@JoinColumn(name = "book")},
                inverseJoinColumns ={@JoinColumn(name ="author")})
-
-    public Set<Author> mappedByAuthors=new HashSet<Author>();
+// cannot be null
+    //if there is no authors just set wit size 0
+    public Set<Author> Authors=new HashSet<Author>();
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Author_Genre")
-    private TypeEnum genre;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Set<enumOfGenres>  genre;
 
 
     public Book(String name,Collection<String> NameOfCustommers){
@@ -71,11 +73,11 @@ public class Book {
     }
 
     public Set<Author> getAuthors() {
-        return mappedByAuthors;
+        return Authors;
     }
 
     public void setAuthors(Set<Author> authors) {
-        this.mappedByAuthors = authors;
+        this.Authors = authors;
     }
 
     @Override
@@ -87,23 +89,30 @@ public class Book {
         Book book = (Book) obj;
 
         //in our case 2 books are equal when id
-        //and collection of authoes are equals
+        //and collection of authores are equals
 
-        if(this.Another_Id==book.getId() &&checkCollection(this.mappedByAuthors,book.getAuthors()))
+        if(this.Another_Id==book.getId() &&checkCollection(this.Authors,book.getAuthors()))
             return true;
         else return false;
     }
-    public boolean checkCollection(Set<Author> f,Set<Author> s){
+    private boolean checkCollection(Set<Author> f,Set<Author> s){
+        //could not be null
         return f.equals(s);
     }
 
     public Book(){}
 
-    public TypeEnum getGenre() {
+    public Set<enumOfGenres> getGenre() {
         return genre;
     }
 
-    public void setGenre(TypeEnum genre) {
+    public void setGenre(Set<enumOfGenres> genre) {
         this.genre = genre;
+    }
+
+    public void removeAuthor(Author author){
+        //delete POJO which was associated with database
+        //after this method should update book
+        Authors.remove(author);
     }
 }

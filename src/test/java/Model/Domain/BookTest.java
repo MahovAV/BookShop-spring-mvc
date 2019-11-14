@@ -25,7 +25,6 @@ public class BookTest {
         //instance 2 copy and one other object
         oruell=new Author("oruell");
         oruell.setId(1);
-        oruell.setGenre(TypeEnum.ADVENTURE);
         oruell.setAddres(new addres("USA"));
         oruell.setBooks(new HashSet<Book>(
                 Arrays.asList(new Book("1984", Arrays.asList("jack")))));
@@ -36,7 +35,6 @@ public class BookTest {
 
         copyOfOryel2=new Author("oruell");
         copyOfOryel2.setId(1);
-        copyOfOryel2.setGenre(TypeEnum.ADVENTURE);
         copyOfOryel2.setAddres(new addres("USA"));
         copyOfOryel2.setBooks(new HashSet<Book>(
                 Arrays.asList(new Book("1984", Arrays.asList("jack")))));
@@ -44,7 +42,6 @@ public class BookTest {
 
         marks=new Author("marks");
         marks.setId(2);
-        marks.setGenre(TypeEnum.ADVENTURE);
         marks.setAddres(new addres("USA"));
         marks.setBooks(new HashSet<Book>(
                 Arrays.asList(new Book("1984", Arrays.asList("jack")))));
