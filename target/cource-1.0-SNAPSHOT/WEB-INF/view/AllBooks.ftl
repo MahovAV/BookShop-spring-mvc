@@ -8,9 +8,10 @@
     <h1>List of all books</h1>
     <table>
         <tr>
-            <td>id</td>
-            <td>name</td>]
-            <td>Change books(ADMIN ONLY!)</td>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Change book</td>
+            <td>Delete book</td>
         </tr>
 
         <#list books as book>
@@ -18,6 +19,7 @@
             <td>${book.id}</td>
             <td>${book.name}</td>
             <td><a href="/ChangeBook/${book.id}">change</a></td>
+            <td><a href="/CheckDeleteBook/${book.id}">Delete</a></td>
             <!--Sending book id as path variable-->
         <tr>
         </#list>

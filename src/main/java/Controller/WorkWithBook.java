@@ -20,6 +20,7 @@ import java.util.Set;
 @RequestMapping("/")
 public class WorkWithBook {
 
+
     @Autowired
     BookShopService bookShopService;
 
@@ -102,6 +103,35 @@ public class WorkWithBook {
         bookShopService.updateBook(book);
         return "BookIsChanged";
     }
+
+    @GetMapping("/CheckDeleteBook/{book_id}")
+    public String AreUserWantToDeleteBook(@PathVariable(value = "book_id") int Book_id,Model model) {
+        //should be here only to redirect POST request with id
+        model.addAttribute("Book_id",Book_id);
+        return "AreYouSure";
+    }
+
+    @PostMapping("/DescitionIsMadeTranslateToDelete/{book_id}")
+    public String DeleteOrNot(@RequestParam(value = "descition", required = false) String descition,
+                              @PathVariable(value = "book_id") int Book_id) {
+        //MAKING DICITION TO DELETE OR NOT
+        if(descition.equals("YES")){
+            bookShopService.deleteById(Book_id);
+        }
+        return "redirect:/getAll";
+    }
+/*
+    @PostMapping("/DeleteBook/{/{book_id}")
+    //page in which we are creating new book
+    //should have all possible GENRES
+    public String ActuallyDeleteBook(@PathVariable(value = "book_id") int Book_id){
+        bookShopService.deleteById(Book_id);
+        return "redirect:/getAll";
+    }
+*/
+
+
+
 }
 
 

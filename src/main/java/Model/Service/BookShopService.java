@@ -46,4 +46,8 @@ public class BookShopService {
     public void updateBook(Book book){
         bookDAO.update(book);
     }
+
+    public void deleteById(int id){
+        bookDAO.delete(id);
+    }
 }

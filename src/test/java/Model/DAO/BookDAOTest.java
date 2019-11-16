@@ -179,6 +179,23 @@ public class BookDAOTest {
 
     }
 
+    @Test
+    public void DeleteTestOneAuthor(){
+        BookShopService shopService=BookDAOTest.getService();
+
+        Book book=new Book("1984",new ArrayList<String>());
+        book.setGenre(new HashSet<enumOfGenres>(Arrays.asList(enumOfGenres.ADVENTURE,enumOfGenres.HORROR)));
+        Author marks=new Author("marks");
+        marks.setAddres(new addres("USA"));
+        book.setAuthors(new HashSet<Author>(Arrays.asList(marks)));
+        shopService.createBook(book);
+
+        shopService.deleteById(book.getId());
+
+        Assert.assertEquals(shopService.GetAllBook().size(),0);
+        Assert.assertEquals(shopService.GetAllAuthors().size(),1);
+    }
+
     public static BookShopService getService(){
         configuration = new Configuration().configure();
         configuration.addAnnotatedClass(Book.class);

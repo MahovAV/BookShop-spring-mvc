@@ -107,12 +107,13 @@ public class BookDAO extends abstractDao {
             session.close();
         }
     }
+
     public Book getById(int id){
+        //return POJO
         Book Data;
         try {
             session = factory.openSession();
             Data=session.get(Book.class,id);
-
         } finally {
             session.close();
         }
@@ -147,8 +148,27 @@ public class BookDAO extends abstractDao {
             }
             session.merge(book);
         session.getTransaction().commit();
-    } finally {
-        session.disconnect();
+        } finally {
+            session.close();
+        }
     }
+    public void delete(int id){
+        try {
+        session = factory.openSession();
+        session.getTransaction().begin();
+            //cannot execute it in open session!!!
+        Book deletingBook=session.get(Book.class,id);
+        Set<Author> authors=deletingBook.getAuthors();
+        for (Author a: authors) {
+            a.deleteBook(deletingBook);
+            session.merge(a);
+        }
+            //dont have relation ship with not existed book
+            //could delete book
+            session.delete(deletingBook);
+        session.getTransaction().commit();
+        } finally {
+            session.close();
+        }
     }
 }
