@@ -5,35 +5,62 @@ import Model.Domain.addres;
 import Model.Domain.Author;
 import Model.Domain.enumOfGenres;
 import Model.Service.BookShopService;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.query.NativeQuery;
 import org.junit.*;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import Config.SpringConfig;
+import org.springframework.context.annotation.Import;
 import java.util.*;
 
 /**
  * Created by user on 06.11.2019.
  */
-
+    @Import(SpringConfig.class)
 public class BookDAOTest {
     private static Logger logger= LoggerFactory.getLogger(BookDAOTest.class);
-    private static Configuration configuration;
-    private static SessionFactory factorySession;
+    private static ApplicationContext context;
     private static BookShopService bookShopService;
-    //// TODO: 15.11.2019 make method which will return us object also needed
-    // pathern command
 
+    @BeforeClass
+    public static void init(){
+        System.out.println("calling init method setting context and creating bean manually");
+        context=new AnnotationConfigApplicationContext(SpringConfig.class);
+        bookShopService=(BookShopService)context.getBean("Service");
+    }
+
+    @AfterClass
+    public static void cleanBaseAfter(){
+        cleanBase();
+    }
+
+    @Before
+    public  void cleanBaseBeforeEachTest(){
+        cleanBase();
+    }
+
+    public static void cleanBase(){
+        SessionFactory Factorysession=(SessionFactory)context.getBean("getFactory");
+        Session session=Factorysession.openSession();
+        session.getTransaction().begin();
+        String [] quries={"SET FOREIGN_KEY_CHECKS = 0;","TRUNCATE TABLE author;",
+                "TRUNCATE TABLE book;",
+                "TRUNCATE TABLE book_author;",
+                "TRUNCATE TABLE book_genre;",
+                "TRUNCATE TABLE book_nameofcustommers;",
+                "SET FOREIGN_KEY_CHECKS = 1;"};
+        for(int i=0;i<quries.length;i++){
+            NativeQuery query=session.createSQLQuery(quries[i]);
+            query.executeUpdate();
+        }
+    }
     @Test
     public void WithouAuthor(){
-        configuration = new Configuration().configure();
-        configuration.addAnnotatedClass(Book.class);
-        configuration.addAnnotatedClass(Author.class);
-        factorySession = configuration.buildSessionFactory();
-        bookShopService=new BookShopService(factorySession);
-
 
         Book book=new Book("1984",new ArrayList<String>());
         book.getNameOfCustommers().add("JESSY");
@@ -49,12 +76,6 @@ public class BookDAOTest {
 
     @Test
     public void OneNewAuthor(){
-        configuration = new Configuration().configure();
-        configuration.addAnnotatedClass(Book.class);
-        configuration.addAnnotatedClass(Author.class);
-        factorySession = configuration.buildSessionFactory();
-        bookShopService=new BookShopService(factorySession);
-
         Book book=new Book("1984",new ArrayList<String>());
         book.getNameOfCustommers().add("JESSY");
         book.getNameOfCustommers().add("WOLTER");
@@ -70,9 +91,6 @@ public class BookDAOTest {
         bookShopService.createBook(book);
 
         Book bookFromShop=bookShopService.getById(book.getId());
-        //*************************************************
-        //one book and one author
-        //*************************************************
 
         Set<Author> AuthorsFromBookFromShop=bookFromShop.getAuthors();
 
@@ -84,13 +102,6 @@ public class BookDAOTest {
 
     @Test
     public void AlreadyExistingAuthorAndTwoBooks(){
-        configuration = new Configuration().configure();
-        configuration.addAnnotatedClass(Book.class);
-        configuration.addAnnotatedClass(Author.class);
-        factorySession = configuration.buildSessionFactory();
-        bookShopService=new BookShopService(factorySession);
-
-
         Book book=new Book("1984",new ArrayList<String>());
         book.getNameOfCustommers().add("JESSY");
         book.getNameOfCustommers().add("WOLTER");
@@ -126,18 +137,12 @@ public class BookDAOTest {
         List<Book> books=bookShopService.GetAllBook();
 
         List<Author> authors=bookShopService.GetAllAuthors();
-        //*************************************************
-        //SHOULD HAVE 2 BOOK AND 2 AUTHORS
-        //*************************************************
+
         // TODO: 10.11.2019 add exception support
 
         Assert.assertEquals(2,books.size());
 
         Assert.assertEquals(2,authors.size());
-
-        //*************************************************
-        //CORRECT RELATIONSHIP (BOOK->AUTHOR->BOOK)
-        //*************************************************
 
         for(Book b:books){
             for (Author a:b.getAuthors()){
@@ -147,15 +152,13 @@ public class BookDAOTest {
     }
     @Test
     public void UpdateTest(){
-        BookShopService shopService=BookDAOTest.getService();
-
         Book book=new Book("1984",new ArrayList<String>());
         book.setGenre(new HashSet<enumOfGenres>(Arrays.asList(enumOfGenres.ADVENTURE,enumOfGenres.HORROR)));
         Author marks=new Author("marks");
         marks.setAddres(new addres("USA"));
         book.setAuthors(new HashSet<Author>(Arrays.asList(marks)));
         //was
-        shopService.createBook(book);
+        bookShopService.createBook(book);
         //delete author(bot not from database!!!),delete 1 GENRE
         //add new genre
 
@@ -165,14 +168,14 @@ public class BookDAOTest {
 
         //Should have:1.marks in data base and have no link to book
         //2.book from data base and book POJO are equivalent
-        shopService.updateBook(book);
+        bookShopService.updateBook(book);
 
-        List<Author> authors=shopService.GetAllAuthors();
+        List<Author> authors=bookShopService.GetAllAuthors();
         Assert.assertEquals(1,authors.size());
         Assert.assertEquals(authors.get(0).getBooks().size(),0);
         //should check book
 
-        Assert.assertTrue(book.equals(shopService.getById(book.getId())));
+        Assert.assertTrue(book.equals(bookShopService.getById(book.getId())));
 
 
         //there is no changes should have the same result
@@ -181,26 +184,16 @@ public class BookDAOTest {
 
     @Test
     public void DeleteTestOneAuthor(){
-        BookShopService shopService=BookDAOTest.getService();
-
         Book book=new Book("1984",new ArrayList<String>());
         book.setGenre(new HashSet<enumOfGenres>(Arrays.asList(enumOfGenres.ADVENTURE,enumOfGenres.HORROR)));
         Author marks=new Author("marks");
         marks.setAddres(new addres("USA"));
         book.setAuthors(new HashSet<Author>(Arrays.asList(marks)));
-        shopService.createBook(book);
+        bookShopService.createBook(book);
 
-        shopService.deleteById(book.getId());
+        bookShopService.deleteById(book.getId());
 
-        Assert.assertEquals(shopService.GetAllBook().size(),0);
-        Assert.assertEquals(shopService.GetAllAuthors().size(),1);
-    }
-
-    public static BookShopService getService(){
-        configuration = new Configuration().configure();
-        configuration.addAnnotatedClass(Book.class);
-        configuration.addAnnotatedClass(Author.class);
-        factorySession = configuration.buildSessionFactory();
-        return new BookShopService(factorySession);
+        Assert.assertEquals(bookShopService.GetAllBook().size(),0);
+        Assert.assertEquals(bookShopService.GetAllAuthors().size(),1);
     }
 }

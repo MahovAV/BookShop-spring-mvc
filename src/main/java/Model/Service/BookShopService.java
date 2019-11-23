@@ -5,28 +5,33 @@ import Model.DAO.BookDAO;
 import Model.Domain.Book;
 import Model.Domain.Author;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * Created by user on 07.11.2019.
  */
-
-// TODO: 07.11.2019 implement create book method which will handle authors also
-@Service
+@Service("MainService")
 public class BookShopService {
+    private static Logger logger= LoggerFactory.getLogger(BookShopService.class);
+    @Autowired
     private  BookDAO bookDAO;
+    @Autowired
     private  AuthorDAO authorDAO;
 
-    public BookShopService(SessionFactory factory){
-        bookDAO=new BookDAO(factory);
-        authorDAO=new AuthorDAO(factory);
+    public BookShopService(){
+        logger.info(BookShopService.class.getName()+"is created");
     }
 
-    //********************************************************
-    //  PUT HERE POJO WITH RELATIONSHIP
-    //********************************************************
     public void createBook(Book book){
         bookDAO.addBook(book);
     }

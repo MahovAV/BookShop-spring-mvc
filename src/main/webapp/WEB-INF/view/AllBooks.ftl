@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>List of all books</h1>
+    <p><a href="/addBook">ADD NEW BOOK</a></p>
     <table>
         <tr>
             <td>Id</td>

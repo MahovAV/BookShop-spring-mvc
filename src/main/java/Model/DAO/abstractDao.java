@@ -8,9 +8,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by user on 03.11.2019.
  */
-public class abstractDao {
+public abstract class abstractDao {
     //keeping all data for working with database
-    protected static Logger logger= LoggerFactory.getLogger(abstractDao.class);
+    protected static Logger logger=null;
     protected SessionFactory factory=null;
     protected Session session=null;
     public abstractDao(SessionFactory factory) {

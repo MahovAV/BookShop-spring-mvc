@@ -1,0 +1,14 @@
+Model\DAO\BookDAO.class
+Model\DAO\AuthorDAO.class
+Config\WebConfig.class
+Controller\BookController.class
+Config\WebAppInitializer.class
+Helper\GenreRepository.class
+Model\Domain\addres.class
+Model\DAO\abstractDao.class
+Model\Domain\enumOfGenres.class
+Model\Service\BookShopService.class
+Model\Domain\Book.class
+Config\SpringConfig.class
+Model\Domain\Author.class
+Helper\AuthorRepresentation.class

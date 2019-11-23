@@ -4,12 +4,21 @@ import Model.Domain.Author;
 import org.hibernate.SessionFactory;
 
 import org.hibernate.query.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 /**
  * Created by user on 05.11.2019.
  */
+
+@Import(Config.SpringConfig.class)
+@Component
 public class AuthorDAO extends abstractDao{
+    @Autowired
     public AuthorDAO(SessionFactory factory){
         super(factory);
     }

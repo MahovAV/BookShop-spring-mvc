@@ -13,13 +13,13 @@ import java.util.Set;
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int Id;
 
-    @Column(name = "Author_Name")
+    @Column(name = "name")
     private String name;
 
     @Embedded
-    @Column(name = "Author_Addres")
+    @Column(name = "addres")
     private addres addres;
 
     public Model.Domain.addres getAddres() {
@@ -55,16 +55,12 @@ public class Author {
     }
 
 
-
-
-
-
     public int getId() {
-        return id;
+        return Id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.Id = id;
     }
 
     public String getName() {

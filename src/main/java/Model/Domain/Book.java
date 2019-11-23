@@ -15,12 +15,14 @@ import java.util.*;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Another_Id;
+    private int Id;
 
     private String name;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @LazyCollection(LazyCollectionOption.FALSE)
+    @CollectionTable(name = "book_NameOfCustommers", joinColumns = @JoinColumn(name = "book_id"))
+    @Column(name = "name")
     private Collection<String> NameOfCustommers;
 
 
@@ -49,11 +51,11 @@ public class Book {
     }
 
     public int getId() {
-        return Another_Id;
+        return Id;
     }
 
     public void setId(int id) {
-        this.Another_Id = id;
+        this.Id = id;
     }
 
     public String getName() {
@@ -91,7 +93,7 @@ public class Book {
         //in our case 2 books are equal when id
         //and collection of authores are equals
 
-        if(this.Another_Id==book.getId() &&checkCollection(this.Authors,book.getAuthors()))
+        if(this.Id==book.getId() &&checkCollection(this.Authors,book.getAuthors()))
             return true;
         else return false;
     }

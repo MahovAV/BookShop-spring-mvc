@@ -1,10 +1,20 @@
 package Model.DAO;
 
+import Config.SpringConfig;
+import Helper.AuthorRepresentation;
 import Model.Domain.Book;
+import Model.Service.BookShopService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import Model.Domain.Author;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,9 +25,15 @@ import java.util.Set;
  * Created by user on 05.11.2019.
  */
 
-// TODO: 08.11.2019 ADD CLOSE TRANSACTION AND STRATEGY PATTERN AND INTERFACE 
-
+// TODO: 08.11.2019 ADD CLOSE TRANSACTION AND STRATEGY PATTERN AND INTERFACE
+@Import(SpringConfig.class)
+@Component
 public class BookDAO extends abstractDao {
+
+    @Autowired
+    private AuthorRepresentation representation;
+
+    @Autowired
     public BookDAO(SessionFactory factory){
         super(factory);
     }
@@ -27,47 +43,18 @@ public class BookDAO extends abstractDao {
             session = factory.openSession();
             session.getTransaction().begin();
 
-            List<String> namesOfAutors=new ArrayList<String>();
-            Set<Author> authors =book.getAuthors();
+            List<String> namesOfAutors=representation.getListOfStrings(book.getAuthors());
 
-            for(Author author:authors){
-                namesOfAutors.add(author.getName());
-            }
+            Set<Author> authors =book.getAuthors();
 
             List<Author> WhoInDataBase=new ArrayList<Author>();
 
             List<Author> WhoIsNotInDataBase=new ArrayList<Author>();
 
-            for(int i=0;i<namesOfAutors.size();++i){
-                if(BookDAO.getExisted(session,namesOfAutors.get(i))!=null){
-                    //will add as existed
-                    Author author=BookDAO.getExisted(session,namesOfAutors.get(i));
-                    boolean itWas=false;
-                    //check whether it was or not
-                    for(Author a:WhoInDataBase){
-                        if(a.getName().equals(author.getName())){
-                            //already here shouldn't add
-                            itWas=true;
-                        }
-                    }
-                    if(!itWas){
-                        //adding new if wasn t in database
-                        WhoInDataBase.add(author);
-                    }
-                }else{
-                    //just finding object from book and adding him
-                    Author auth=null;
-                    for(Author author:authors){
-                        if(author.getName().equals(namesOfAutors.get(i))){
-                            auth=author;
-                        }
-                    }
-                    WhoIsNotInDataBase.add(auth);
-                }
-            }
+            representation.SplitAuthors(namesOfAutors,WhoInDataBase, WhoIsNotInDataBase,authors,session);
+
             Set<Author> ResultSet = new HashSet<Author>();
 
-            //adding into result Set all entity
             for(Author author:WhoInDataBase){
                 ResultSet.add(author);
             }
@@ -76,19 +63,12 @@ public class BookDAO extends abstractDao {
                 ResultSet.add(author);
             }
 
-
-
             book.setAuthors(ResultSet);
             session.save(book);
             session.getTransaction().commit();
         } finally {
             session.disconnect();
         }
-    }
-    public static Author getExisted(Session session,String name) {
-        Query query = session.createQuery("FROM Author A WHERE name = :paramName");
-        query.setParameter("paramName", name);
-        return (Author) query.uniqueResult();
     }
 
 
@@ -147,6 +127,7 @@ public class BookDAO extends abstractDao {
                 }
             }
             session.merge(book);
+            //WILL CASCADE TO AUTHORS TOO
         session.getTransaction().commit();
         } finally {
             session.close();
@@ -161,8 +142,10 @@ public class BookDAO extends abstractDao {
         Set<Author> authors=deletingBook.getAuthors();
         for (Author a: authors) {
             a.deleteBook(deletingBook);
-            session.merge(a);
+            //NO NEED MERGE HERE AS WE WILL COMMIT
+            //AUTOMATICLY WILL MANAGE IT VIA DIRTY CHECKING
         }
+
             //dont have relation ship with not existed book
             //could delete book
             session.delete(deletingBook);
