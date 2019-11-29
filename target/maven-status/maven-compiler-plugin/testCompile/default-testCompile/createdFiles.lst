@@ -1,2 +1,2 @@
-Model\Domain\BookTest.class
-Model\DAO\BookDAOTest.class
+ru\cource\model\dao\BookDAOTest.class
+ru\cource\model\domain\BookTest.class
