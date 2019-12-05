@@ -1,9 +1,10 @@
 package ru.cource.model.dao;
 
 import ru.cource.config.SpringConfig;
-import ru.cource.helper.AuthorRepresentation;
 import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
+
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,11 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Created by user on 05.11.2019.
@@ -23,8 +28,6 @@ import java.util.Set;
 @Component
 public class BookDAO extends AbstractDao {
 
-    @Autowired
-    private AuthorRepresentation representation;
 
     @Autowired
     public BookDAO(SessionFactory factory){
@@ -38,25 +41,33 @@ public class BookDAO extends AbstractDao {
             session = factory.openSession();
             session.getTransaction().begin();
 
-            List<String> namesOfAutors=representation.getListOfStrings(book.getAuthors());
+            Set<Author> allAuthors =book.getAuthors();
 
-            Set<Author> authors =book.getAuthors();
+            List<Author> whoInDataBase=new ArrayList<Author>();
 
-            List<Author> WhoInDataBase=new ArrayList<Author>();
+            List<Author> whoIsNotInDataBase=new ArrayList<Author>();
 
-            List<Author> WhoIsNotInDataBase=new ArrayList<Author>();
+        	Predicate<Author> isInDataBase=(author)->getByName(session,author.getName()).isPresent();
 
-            representation.splitAuthors(namesOfAutors,WhoInDataBase, WhoIsNotInDataBase,authors,session);
+        	Function<Author,Author> getFromDataBase=(pojoAuthor)->{
+        		return getByName(session,pojoAuthor.getName()).get();
+        	};   	
+
+        	whoInDataBase=allAuthors.stream()
+        								 .filter(isInDataBase)
+        								 .map(getFromDataBase)
+        								 .collect(Collectors.toList());
+
+        	whoIsNotInDataBase=allAuthors.stream()
+        			    					  .filter(isInDataBase.negate())
+        			    					  .peek((newAuthor)->session.save(newAuthor))
+        									  .collect(Collectors.toList());
 
             Set<Author> ResultSet = new HashSet<Author>();
-
-            for(Author author:WhoInDataBase){
-                ResultSet.add(author);
-            }
-            for(Author author:WhoIsNotInDataBase){
-                session.save(author);
-                ResultSet.add(author);
-            }
+            
+            ResultSet.addAll(whoInDataBase);
+            
+            ResultSet.addAll(whoIsNotInDataBase);
 
             book.setAuthors(ResultSet);
             session.save(book);
@@ -84,7 +95,6 @@ public class BookDAO extends AbstractDao {
     }
 
     public Book getById(int id){
-        //return POJO
         Book Data;
         try {
             session = factory.openSession();
@@ -148,5 +158,13 @@ public class BookDAO extends AbstractDao {
         } finally {
             session.close();
         }
+    }
+    private static Optional<Author> getByName(Session session,String name) {
+    	//if there is no object we return null
+    	//rewrite with usage of optional
+    	
+        Query query = session.createQuery("FROM Author A WHERE name = :paramName");
+        query.setParameter("paramName", name);
+        return Optional.ofNullable((Author)query.uniqueResult());
     }
 }

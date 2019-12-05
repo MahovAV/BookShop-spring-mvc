@@ -1,9 +1,9 @@
 ru\cource\model\domain\enumOfGenres.class
 ru\cource\controller\BookController.class
+ru\cource\controller\ControllerUtils.class
 ru\cource\model\dao\AuthorDAO.class
 ru\cource\model\domain\Author.class
 ru\cource\model\domain\Book.class
-ru\cource\helper\AuthorRepresentation.class
 ru\cource\config\WebConfig.class
 ru\cource\model\service\BookShopService.class
 ru\cource\model\dao\BookDAO.class
@@ -11,4 +11,3 @@ ru\cource\model\dao\AbstractDao.class
 ru\cource\config\SpringConfig.class
 ru\cource\model\domain\Addres.class
 ru\cource\config\WebAppInitializer.class
-ru\cource\helper\GenreRepository.class

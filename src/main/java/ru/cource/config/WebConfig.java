@@ -19,7 +19,6 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
  */
 @Configuration
 @EnableWebMvc
-@Import(WebAppInitializer.class)
 public class WebConfig implements WebMvcConfigurer  {
     private static Logger logger= LoggerFactory.getLogger(WebConfig.class);
 

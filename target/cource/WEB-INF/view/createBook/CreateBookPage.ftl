@@ -15,7 +15,7 @@
             <br>
         </#list>
         <p>Write names of authors of book(comma-separated list)</p>
-        <input title="Name" type="text" name="Authors">
+        <input title="Name" type="text" name="InputedAuthor">
         <input type="submit" value="Create New Book">
     </form>
 </body>

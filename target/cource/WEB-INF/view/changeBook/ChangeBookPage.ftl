@@ -6,14 +6,14 @@
 </head>
 	<body>
 	<!-- GO BACK AS WE ARE ON COURSE/CHANGEbOOK/book.id    -->
-		<form name="NewBook" action="../BookIsChanged/${Book_id}" method="post">
+		<form name="NewBook" action="../BookIsChanged/${book.id}" method="post">
 		    <p>Name of book</p>
-		    <input title="Name" type="text" name="NewName" value="${Book_name}"  <!-- implicitly goes to constructor -->
-		    <p>Chose genre of book</p>
+		    <input title="Name" type="text" name="name" value="${book.name}"  <!-- implicitly goes from  -->
+		    <p>Chose genre of book</p>                                           <!-- Setters and getters -->
 		    <#list AllGenres as genre>
 		        <br>
 		            <#assign itWas = false>
-		            <#list CheckedGenres as CheckedGenre>
+		            <#list book.stringsFromCheckedGenres as CheckedGenre>
 		                <!-- CHECK WEATHER IT IS IN COLLECTION -->
 		                <#if (CheckedGenre==genre)>
 		                    <#assign itWas = true>
@@ -31,7 +31,7 @@
 		    </#list>
 		    <p>Write names of authors of book(comma-separated list)</p>
 		    <!-- Authors:string which will All related authors -->
-		    <input title="Name" type="text" name="Authors" value="${Authors}">
+		    <input title="Name" type="text" name="InputedAuthor" value="${book.stringFromAuthors}">
 		    <input type="submit" value="Change book">
 		</form>
 	</body>

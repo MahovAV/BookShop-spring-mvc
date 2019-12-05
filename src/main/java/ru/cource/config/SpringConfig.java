@@ -9,8 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
-import ru.cource.helper.AuthorRepresentation;
-import ru.cource.helper.GenreRepository;
 import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
 import ru.cource.model.service.BookShopService;
@@ -54,10 +52,7 @@ public class SpringConfig {
         return configuration.buildSessionFactory();
     }
 
-
     @Bean
-    @DependsOn({"getFactory","genres","authorRepresentation"})
-    
     public BookShopService Service(){
         logger.info("getting "+BookShopService.class.getName()+" from SessionFactory");
         BookShopService bookShopService=new BookShopService();
@@ -65,15 +60,4 @@ public class SpringConfig {
         return bookShopService;
     }
 
-    @Bean
-    public GenreRepository genres(){
-    	logger.info("GenreRepository is created");
-        return new GenreRepository();
-    }
-
-    @Bean
-    public AuthorRepresentation authorRepresentation(){
-    	logger.info("authorRepresentation is created");
-        return new AuthorRepresentation();
-    }
 }

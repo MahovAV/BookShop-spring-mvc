@@ -16,16 +16,15 @@ import javax.servlet.ServletRegistration;
  * Created by user on 12.11.2019.
  */
 @Configuration
-@DependsOn({"getViewResolver","getFreeMarkerConfigurer"})
 public class WebAppInitializer implements WebApplicationInitializer {
     private static Logger logger= LoggerFactory.getLogger(WebAppInitializer.class);
     public void onStartup(ServletContext servletContext) throws ServletException {
         //Где WebApplicationInitializer — интерфейс, предоставляемый Spring MVC
         //  который гарантирует инициализацию при старте контейнера.
-
+    	logger.info("Start initialization");
         AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+        logger.info("register "+SpringConfig.class.getName() + " , "+WebConfig.class.getName());
         context.register(SpringConfig.class,WebConfig.class);
-        logger.info("register AnnotationConfigWebApplicationContext");
         //ЗАРЕГИСТРИРОВАЛИ СВОИСТВА
         context.setServletContext(servletContext);
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(context));

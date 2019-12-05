@@ -4,11 +4,10 @@ C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\d
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\domain\Book.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\config\WebConfig.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\domain\enumOfGenres.java
-C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\helper\GenreRepository.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\domain\Addres.java
-C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\helper\AuthorRepresentation.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\dao\AbstractDao.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\dao\AuthorDAO.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\service\BookShopService.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\config\SpringConfig.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\dao\BookDAO.java
+C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\controller\ControllerUtils.java
