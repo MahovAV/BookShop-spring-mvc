@@ -70,7 +70,7 @@ public class BookDAOTest {
         logger.info("putting book without author");
         bookShopService.createBook(book);
         //HAVE PERSISTED BOOK  need check this
-        Book bookFromShop=bookShopService.getById(book.getId());
+        Book bookFromShop=bookShopService.getBookById(book.getId());
 
         Assert.assertTrue(bookFromShop.equals(book));
     }
@@ -91,7 +91,7 @@ public class BookDAOTest {
         book.getAuthors().add(oryell);
         bookShopService.createBook(book);
 
-        Book bookFromShop=bookShopService.getById(book.getId());
+        Book bookFromShop=bookShopService.getBookById(book.getId());
 
         Set<Author> AuthorsFromBookFromShop=bookFromShop.getAuthors();
 
@@ -176,7 +176,7 @@ public class BookDAOTest {
         Assert.assertEquals(authors.get(0).getBooks().size(),0);
         //should check book
 
-        Assert.assertTrue(book.equals(bookShopService.getById(book.getId())));
+        Assert.assertTrue(book.equals(bookShopService.getBookById(book.getId())));
 
 
         //there is no changes should have the same result

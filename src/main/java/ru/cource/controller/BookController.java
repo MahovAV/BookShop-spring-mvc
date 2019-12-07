@@ -2,6 +2,7 @@ package ru.cource.controller;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
+import ru.cource.model.domain.BookValidator;
 import ru.cource.model.domain.enumOfGenres;
 import ru.cource.model.service.BookShopService;
 
@@ -38,6 +40,9 @@ public class BookController {
 
     @Autowired
     BookShopService bookShopService;
+    
+    @Autowired
+    BookValidator bookValidator;
     
     static Set<String> allGenre;
     
@@ -78,15 +83,15 @@ public class BookController {
     @PostMapping("/BookIsCreated")
     //page after which we have book
     //should create complete book and send it to the service
-    public String creatingBook(@Valid @ModelAttribute Book book,BindingResult bindingResult) {
-    	//todo:rewrite it by using string builder
+    public String creatingBook(@Valid @ModelAttribute Book book,BindingResult bindingResult,Model model) {
+    	bookValidator.validate(book, bindingResult);
     	if(bindingResult.hasErrors()) {
-    		String errorMessage = "";
-    		for(ObjectError e:bindingResult.getAllErrors()) {
-    			errorMessage+=(e.getDefaultMessage());
-    		}
-    		logger.info(errorMessage);
-    		return "redirect:/CreateBook";
+    		//should return our wrong user and error message to show
+    		Map<String,String> FiledErrors=ControllerUtils.getErrors(bindingResult);
+    		model.mergeAttributes(FiledErrors);
+    		model.addAttribute("AllGenres",allGenre);
+    		model.addAttribute("book",book);
+    		return "CreateBookPage";
     	}
         bookShopService.createBook(book);
         return "BookIsCreated";
@@ -95,7 +100,7 @@ public class BookController {
     @GetMapping("ChangeBook/{book_id}")
     public String changeBookPage(@PathVariable(value = "book_id") int Book_id, Model model){
     
-        Book book=bookShopService.getById(Book_id);
+        Book book=bookShopService.getBookById(Book_id);
         model.addAttribute("AllGenres",allGenre);
         model.addAttribute("book",book);
         //send all data to user and wait new value to change the book
@@ -104,7 +109,7 @@ public class BookController {
     }
     @PostMapping("BookIsChanged/{book_id}")
     public String changingBook(@Valid @ModelAttribute Book newbook,BindingResult bindingResult,@PathVariable(value = "book_id") int Book_id, Model model){
-        Book oldbook=bookShopService.getById(Book_id);
+        Book oldbook=bookShopService.getBookById(Book_id);
         
         oldbook.setAuthors(newbook.getAuthors());
         oldbook.setGenre(newbook.getGenre());

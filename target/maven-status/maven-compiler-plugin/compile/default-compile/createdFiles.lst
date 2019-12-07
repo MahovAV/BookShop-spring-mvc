@@ -4,6 +4,7 @@ ru\cource\controller\ControllerUtils.class
 ru\cource\model\dao\AuthorDAO.class
 ru\cource\model\domain\Author.class
 ru\cource\model\domain\Book.class
+ru\cource\model\domain\BookValidator.class
 ru\cource\config\WebConfig.class
 ru\cource\model\service\BookShopService.class
 ru\cource\model\dao\BookDAO.class

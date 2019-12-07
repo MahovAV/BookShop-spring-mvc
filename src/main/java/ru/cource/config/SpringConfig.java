@@ -11,6 +11,7 @@ import org.springframework.context.annotation.DependsOn;
 
 import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
+import ru.cource.model.domain.BookValidator;
 import ru.cource.model.service.BookShopService;
 
 
@@ -60,4 +61,9 @@ public class SpringConfig {
         return bookShopService;
     }
 
+    @Bean
+    public BookValidator bookValidator() {
+		return new BookValidator();
+    }
+    
 }

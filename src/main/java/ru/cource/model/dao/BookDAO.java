@@ -47,10 +47,10 @@ public class BookDAO extends AbstractDao {
 
             List<Author> whoIsNotInDataBase=new ArrayList<Author>();
 
-        	Predicate<Author> isInDataBase=(author)->getByName(session,author.getName()).isPresent();
+        	Predicate<Author> isInDataBase=(author)->getAuthorByName(session,author.getName()).isPresent();
 
         	Function<Author,Author> getFromDataBase=(pojoAuthor)->{
-        		return getByName(session,pojoAuthor.getName()).get();
+        		return getAuthorByName(session,pojoAuthor.getName()).get();
         	};   	
 
         	whoInDataBase=allAuthors.stream()
@@ -159,7 +159,21 @@ public class BookDAO extends AbstractDao {
             session.close();
         }
     }
-    private static Optional<Author> getByName(Session session,String name) {
+    
+	public Book getByName(String name) {
+        Book Data;
+        try {
+            session = factory.openSession();
+            Query query = session.createQuery("FROM Book A WHERE name = :paramName");
+            query.setParameter("paramName", name);
+            Data= (Book)query.uniqueResult();
+        } finally {
+            session.close();
+        }
+        return Data;
+	}
+    
+    private static Optional<Author> getAuthorByName(Session session,String name) {
     	//if there is no object we return null
     	//rewrite with usage of optional
     	
@@ -167,4 +181,6 @@ public class BookDAO extends AbstractDao {
         query.setParameter("paramName", name);
         return Optional.ofNullable((Author)query.uniqueResult());
     }
+
+
 }

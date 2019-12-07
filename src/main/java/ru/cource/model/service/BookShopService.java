@@ -33,8 +33,13 @@ public class BookShopService {
         bookDAO.addBook(book);
     }
 
-    public Book getById(int id){
+    public Book getBookById(int id){
         return bookDAO.getById(id);
+    }
+    
+    public Book getBookByName(String Name) {
+		return bookDAO.getByName(Name);
+    	
     }
 
     public List<Book> GetAllBook(){

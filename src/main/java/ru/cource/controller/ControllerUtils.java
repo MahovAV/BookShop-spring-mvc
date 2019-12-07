@@ -15,7 +15,7 @@ import org.springframework.validation.FieldError;
 import ru.cource.model.domain.Author;
 
 public class ControllerUtils {
-     Map<String, String> getErrors(BindingResult bindingResult) {
+     static Map<String, String> getErrors(BindingResult bindingResult) {
         Collector<FieldError, ?, Map<String, String>> collector = Collectors.toMap(
                 fieldError -> fieldError.getField() + "Error",
                 FieldError::getDefaultMessage

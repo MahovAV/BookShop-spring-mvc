@@ -8,8 +8,8 @@
 	<!-- GO BACK AS WE ARE ON COURSE/CHANGEbOOK/book.id    -->
 		<form name="NewBook" action="../BookIsChanged/${book.id}" method="post">
 		    <p>Name of book</p>
-		    <input title="Name" type="text" name="name" value="${book.name}"  <!-- implicitly goes from  -->
-		    <p>Chose genre of book</p>                                           <!-- Setters and getters -->
+		    <input title="Name" type="text" name="name" value="${book.name}" >
+		    <p>Chose genre of book</p>                                           
 		    <#list AllGenres as genre>
 		        <br>
 		            <#assign itWas = false>
@@ -20,11 +20,7 @@
 		                </#if>
 		            </#list>
 		            <input type="checkbox" name="EnumOfGenre" value="${genre}"
-		                <#if (itWas==true)>
-		                   checked
-		                <#else>
-		
-		                </#if>
+		                <#if (itWas==true)>checked<#else></#if>
 		            >
 		        <br>
 		    ${genre}

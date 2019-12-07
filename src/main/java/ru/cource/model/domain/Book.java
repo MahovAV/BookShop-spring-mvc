@@ -31,7 +31,7 @@ public class Book {
     @LazyCollection(LazyCollectionOption.FALSE)
     @CollectionTable(name = "book_NameOfCustommers", joinColumns = @JoinColumn(name = "book_id"))
     @Column(name = "name")
-    private Collection<String> NameOfCustommers;
+    private Collection<String> NameOfCustommers=new HashSet<String>();
 
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
@@ -46,7 +46,10 @@ public class Book {
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<enumOfGenres>  genre;
+    private Set<enumOfGenres>  genre=new HashSet<enumOfGenres>();
+    
+    @Transient
+    private String authorError;
 
     public Book(){}
     
@@ -90,6 +93,14 @@ public class Book {
     public void setId(int id) {
         this.Id = id;
     }
+    
+	public String getAuthorError() {
+		return authorError;
+	}
+
+	public void setAuthorError(String authorError) {
+		this.authorError = authorError;
+	}
 
     public Collection<String> getNameOfCustommers() {
         return NameOfCustommers;
@@ -101,8 +112,16 @@ public class Book {
 
     //Methods for getting and setting information for view
     public void setInputedAuthor(String Authors) {
-    	System.out.println("setAuthors");
+    	//validate string and if there some errors should return null
+    	authorError =validInputedAuthor(Authors);
+    	//if string is valid we set our authoes
+    	if(authorError==null) {
+        System.out.println("authors is clear setting them into pojo");
         this.Authors = getAuthorsFromString(Authors);
+    	}else {
+    		System.out.println("There are some error in setAuthors"+authorError);
+    		this.Authors= new HashSet<Author>();
+    	}
     }
     
 
@@ -172,5 +191,27 @@ public class Book {
     private boolean checkCollection(Set<Author> f,Set<Author> s){
         //could not be null
         return f.equals(s);
+    }
+    
+    private String validInputedAuthor(String authors) {
+    	//must have: no dublicates,valid string
+    	for(int i=0;i<authors.length();++i) {
+    		if(authors.charAt(i)==',') {
+    			//we must have next character
+    			if(i==authors.length()-1||authors.charAt(i+1)==',') {
+    				return "invalid string";
+    			}
+    		}
+    	}
+        List<String> listWithDuplicates = Arrays.asList(authors.split(",")).stream()
+        																   .collect(Collectors.toList());
+        List<String> listWithoutDuplicates = listWithDuplicates.stream()
+        													   .distinct()
+        													   .collect(Collectors.toList());
+        if(listWithDuplicates.size()!=listWithoutDuplicates.size()) {
+        	return "there is dublicates in string";
+        }
+        //there is no problem with string
+		return null;
     }
 }
