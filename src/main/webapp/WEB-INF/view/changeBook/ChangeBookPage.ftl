@@ -9,6 +9,11 @@
 		<form name="NewBook" action="../BookIsChanged/${book.id}" method="post">
 		    <p>Name of book</p>
 		    <input title="Name" type="text" name="name" value="${book.name}" >
+		    <#if nameError??>
+          		<div style="color: #ff0000;">
+          	     ${nameError}
+          		</div>
+     		</#if>
 		    <p>Chose genre of book</p>                                           
 		    <#list AllGenres as genre>
 		        <br>
@@ -28,6 +33,11 @@
 		    <p>Write names of authors of book(comma-separated list)</p>
 		    <!-- Authors:string which will All related authors -->
 		    <input title="Name" type="text" name="InputedAuthor" value="${book.stringFromAuthors}">
+	  		<#if authorsError??>
+            	<div style="color: #ff0000;">
+               		${authorsError}
+            	</div>
+            </#if>
 		    <input type="submit" value="Change book">
 		</form>
 	</body>

@@ -86,7 +86,7 @@ public class BookController {
     public String creatingBook(@Valid @ModelAttribute Book book,BindingResult bindingResult,Model model) {
     	bookValidator.validate(book, bindingResult);
     	if(bindingResult.hasErrors()) {
-    		//should return our wrong user and error message to show
+    		//should return our wrong  user and error message to show
     		Map<String,String> FiledErrors=ControllerUtils.getErrors(bindingResult);
     		model.mergeAttributes(FiledErrors);
     		model.addAttribute("AllGenres",allGenre);
@@ -110,6 +110,17 @@ public class BookController {
     @PostMapping("BookIsChanged/{book_id}")
     public String changingBook(@Valid @ModelAttribute Book newbook,BindingResult bindingResult,@PathVariable(value = "book_id") int Book_id, Model model){
         Book oldbook=bookShopService.getBookById(Book_id);
+        
+        bookValidator.validate(newbook, bindingResult,oldbook);
+    	if(bindingResult.hasErrors()) {
+    		//should return our wrong user and error message to show
+    		Map<String,String> FiledErrors=ControllerUtils.getErrors(bindingResult);
+    		model.mergeAttributes(FiledErrors);
+    		model.addAttribute("AllGenres",allGenre);
+    		newbook.setId(Book_id);
+    		model.addAttribute("book",newbook);
+    		return "ChangeBookPage";
+    	}
         
         oldbook.setAuthors(newbook.getAuthors());
         oldbook.setGenre(newbook.getGenre());

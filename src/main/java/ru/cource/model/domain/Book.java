@@ -57,12 +57,13 @@ public class Book {
         this.name=name;
         this.NameOfCustommers=NameOfCustommers;
     }
-    //old setters and getters
+
     
     public Book (String name) {
         this.name=name;
     }
-
+    //old setters and getters
+    
 	public void setName(String name) {
         this.name = name;
     }
@@ -111,10 +112,11 @@ public class Book {
     }
 
     //Methods for getting and setting information for view
+    
     public void setInputedAuthor(String Authors) {
     	//validate string and if there some errors should return null
     	authorError =validInputedAuthor(Authors);
-    	//if string is valid we set our authoes
+    	//if string is valid we set our authors
     	if(authorError==null) {
         System.out.println("authors is clear setting them into pojo");
         this.Authors = getAuthorsFromString(Authors);

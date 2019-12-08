@@ -8,6 +8,7 @@ import org.springframework.validation.Validator;
 import ru.cource.model.service.BookShopService;
 
 public class BookValidator implements Validator {
+	private Book book;
 
 	@Autowired
 	private BookShopService service;
@@ -16,20 +17,30 @@ public class BookValidator implements Validator {
 	public boolean supports(Class<?> clazz) {
 		return Book.class.equals(clazz);
 	}
-
-	@Override
-	public void validate(Object target, Errors errors) {
-		//add new type of error in name and add new filed error in author
-		Book book=(Book)target;
-		if(service.getBookByName(book.getName())!=null){
-			//if not empty
-			errors.rejectValue("name","","Book is alreary exist");
-		}
+	private void baseValidate(Object target, Errors errors) {
+		book=(Book)target;
 	    if(book.getAuthorError()!=null) {
 	    	errors.rejectValue("authors","",book.getAuthorError());
 	    }
 	}
-		
-	
 
+	@Override
+	public void validate(Object target, Errors errors) {
+		baseValidate(target,errors);
+		if(service.getBookByName(book.getName())!=null){
+			//if book exist in data base hence book has name and we wont have 2 errors at
+			//the same time
+			errors.rejectValue("name","","Book is alreary exist");
+		}
+	}
+	
+	public void validate(Object target, Errors errors,Book oldBook) {
+		baseValidate(target,errors);
+		if(book.getName().equals(oldBook.getName()))return;
+		//book have different names should check
+		if(service.getBookByName(book.getName())!=null){
+			errors.rejectValue("name","","Cannot replace book");
+		}
+	}
+	
 }
