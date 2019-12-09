@@ -1,5 +1,4 @@
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\config\WebAppInitializer.java
-C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\domain\BookValidator.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\controller\BookController.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\domain\Author.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\domain\Book.java
@@ -9,6 +8,8 @@ C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\d
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\dao\AbstractDao.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\dao\AuthorDAO.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\service\BookShopService.java
+C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\aspects\LoggerAspect.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\config\SpringConfig.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\dao\BookDAO.java
+C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\model\validation\BookValidator.java
 C:\Users\user\Desktop\Working-With-Logger-master\src\main\java\ru\cource\controller\ControllerUtils.java

@@ -1,6 +1,5 @@
 package ru.cource.model.dao;
 
-import ru.cource.config.SpringConfig;
 import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
 
@@ -9,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -118,22 +118,18 @@ public class Book {
     	authorError =validInputedAuthor(Authors);
     	//if string is valid we set our authors
     	if(authorError==null) {
-        System.out.println("authors is clear setting them into pojo");
         this.Authors = getAuthorsFromString(Authors);
     	}else {
-    		System.out.println("There are some error in setAuthors"+authorError);
     		this.Authors= new HashSet<Author>();
     	}
     }
     
 
     public void setEnumOfGenre(Set<String> checkboxValues) {
-    	System.out.println("setGenre");
         this.genre = getGenresFromCheckBox(checkboxValues);
     }
     
     public Set<String> getStringsFromCheckedGenres(){
-    	System.out.println("getStringsFromCheckedGenres");
         Set<String> Genres=new HashSet<String>();
         for(enumOfGenres e:genre){
             Genres.add(e.toString());
@@ -142,7 +138,6 @@ public class Book {
     }
     
     public String getStringFromAuthors() {
-    	System.out.println("getStringFromAuthors");
         String result=new String();
         for(Author s:Authors){
             result+=s.getName()+",";

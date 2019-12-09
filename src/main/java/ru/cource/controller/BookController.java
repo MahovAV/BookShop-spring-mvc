@@ -24,9 +24,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
-import ru.cource.model.domain.BookValidator;
 import ru.cource.model.domain.enumOfGenres;
 import ru.cource.model.service.BookShopService;
+import ru.cource.model.validation.BookValidator;
 
 
 
@@ -55,13 +55,11 @@ public class BookController {
 
     @GetMapping("/")
     public String homeRedirect(){
-    	System.out.println("redirect to Home");
         return "redirect:/Home";
     }
     
     @GetMapping("/Home")
     public String home(){
-    	System.out.println("inside Controller");
         return "HomePage";
     }
 

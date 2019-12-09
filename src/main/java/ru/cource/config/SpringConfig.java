@@ -11,15 +11,15 @@ import org.springframework.context.annotation.DependsOn;
 
 import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
-import ru.cource.model.domain.BookValidator;
 import ru.cource.model.service.BookShopService;
+import ru.cource.model.validation.BookValidator;
 
 
 /**
  * Created by user on 12.11.2019.
  */
 @Configuration
-@ComponentScan(basePackages = {"ru.cource.model.dao","ru.cource.controller"})
+@ComponentScan(basePackages = {"ru.cource.model.dao","ru.cource.controller","ru.cource.aspects","ru.cource.model.validation"})
 public class SpringConfig {
     private static Logger logger= LoggerFactory.getLogger(SpringConfig.class);
 

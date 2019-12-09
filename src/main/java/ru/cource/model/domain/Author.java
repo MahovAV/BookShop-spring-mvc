@@ -22,11 +22,11 @@ public class Author {
     @Column(name = "addres")
     private Addres addres;
 
-    public ru.cource.model.domain.Addres getAddres() {
+    public Addres getAddres() {
         return addres;
     }
 
-    public void setAddres(ru.cource.model.domain.Addres addres) {
+    public void setAddres(Addres addres) {
         this.addres = addres;
     }
 
