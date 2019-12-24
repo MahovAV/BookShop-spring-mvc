@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
-import ru.cource.model.domain.enumOfGenres;
+import ru.cource.model.domain.EnumOfGenres;
 import ru.cource.model.service.BookShopService;
 import ru.cource.model.validation.BookValidator;
 
@@ -36,8 +36,6 @@ import ru.cource.model.validation.BookValidator;
 @Controller
 @RequestMapping("/")
 public class BookController {
-    private static Logger logger= LoggerFactory.getLogger(BookController.class);
-
     @Autowired
     BookShopService bookShopService;
     
@@ -47,7 +45,7 @@ public class BookController {
     static Set<String> allGenre;
     
     static {
-    	 allGenre=Arrays.asList(enumOfGenres.values()).stream()
+    	 allGenre=Arrays.asList(EnumOfGenres.values()).stream()
     												  .map(en->en.name())
     			                                      .collect(Collectors.toSet());
     }
@@ -73,7 +71,7 @@ public class BookController {
     @GetMapping("/CreateBook")
     //page in which we are creating new book
     //should have all possible GENRES
-    public String CreateBookPage(Model model){
+    public String createBookPage(Model model){
         model.addAttribute("AllGenres",allGenre);
         return "CreateBookPage";
     }
@@ -140,7 +138,7 @@ public class BookController {
                               @PathVariable(value = "book_id") int Book_id) {
         //user have made decision delete or not book
         if(decision.equals("YES")){
-            bookShopService.deleteById(Book_id);
+            bookShopService.deleteBookById(Book_id);
             return "redirect:/bookIsDeleted";
         }
         return "redirect:/getAll";

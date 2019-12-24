@@ -17,27 +17,29 @@ import ru.cource.config.WebAppInitializer;
 
 @Aspect
 @Component
-@EnableAspectJAutoProxy(proxyTargetClass = true) 
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class LoggerAspect {
-	private static Logger logger= LoggerFactory.getLogger(LoggerAspect.class);
-	
+	private static Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
+
 	@Around("execution(* ru.cource.model.dao.*.*(..))")
 	public Object logDaoOperation(ProceedingJoinPoint pjp) throws Throwable {
-		logger.info("start operation "+pjp.getSignature().getName());
-		long start=System.currentTimeMillis();
-	    Object retVal = pjp.proceed();
-	    logger.info("end operation "+pjp.getSignature().getName()+
-	    		" with "+(System.currentTimeMillis()-start) +" msec.");
-	    
-	    //return same object to  runtime environment object
-	    return retVal;
+		logger.info("start operation " + pjp.getSignature().getName());
+		long start = System.currentTimeMillis();
+		Object retVal = pjp.proceed();
+		logger.info("end operation " + pjp.getSignature().getName() + " with " + (System.currentTimeMillis() - start)
+				+ " msec.");
+
+		// return same object to runtime environment object
+		return retVal;
 	}
 
 	@After("execution(* ru.cource.model.validation.BookValidator.*(..))")
-	public void logValidation(JoinPoint joinPoint ) throws Throwable {
-		Errors errors=(Errors) joinPoint.getArgs()[1];
-		if(errors.hasErrors()) {
-		    logger.info("there are some errors in inputed value");
-		}else logger.info("validation succesfully ended");
+	public void logValidation(JoinPoint joinPoint) throws Throwable {
+		Errors errors = (Errors) joinPoint.getArgs()[1];
+		if (errors.hasErrors()) {
+			logger.info("there are some errors in inputed value");
+		} else
+			logger.info("validation succesfully ended");
 	}
+
 }

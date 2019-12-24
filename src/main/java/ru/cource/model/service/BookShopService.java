@@ -2,13 +2,12 @@ package ru.cource.model.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import ru.cource.model.dao.AuthorDAO;
-import ru.cource.model.dao.BookDAO;
+import ru.cource.model.dao.HibernateAuthorDao;
+import ru.cource.model.dao.HibernateBookDao;
 import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
 
@@ -17,28 +16,31 @@ import ru.cource.model.domain.Book;
 /**
  * Created by user on 07.11.2019.
  */
-@Service("MainService")
-public class BookShopService {
-    private static Logger logger= LoggerFactory.getLogger(BookShopService.class);
+@Transactional
+@Service
+public class BookShopService implements BookShopServiceInterface {
     @Autowired
-    private  BookDAO bookDAO;
+    private  HibernateBookDao bookDAO;
     @Autowired
-    private  AuthorDAO authorDAO;
+    private  HibernateAuthorDao authorDAO;
 
     public BookShopService(){
-        logger.info(BookShopService.class.getName()+"is created");
     }
 
     public void createBook(Book book){
-        bookDAO.addBook(book);
+        bookDAO.create(book);
     }
 
     public Book getBookById(int id){
-        return bookDAO.getById(id);
+        return bookDAO.getEntityById(id);
     }
     
     public Book getBookByName(String Name) {
 		return bookDAO.getByName(Name);
+    }
+    
+    public Author getAuthorByName(String Name) {
+		return authorDAO.getByName(Name);
     	
     }
 
@@ -54,7 +56,7 @@ public class BookShopService {
         bookDAO.update(book);
     }
 
-    public void deleteById(int id){
+    public void deleteBookById(int id){
         bookDAO.delete(id);
     }
 }

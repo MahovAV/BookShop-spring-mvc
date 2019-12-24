@@ -1,8 +1,3 @@
 #LOG FOLDER
 #ignore directory
 target/LoggingAndTempFile
-
-#  example of ingnoring types  *.txt
-
-#example of ignoring file
-Шпора по гит.txt

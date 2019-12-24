@@ -46,7 +46,7 @@ public class Book {
     @Enumerated(EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private Set<enumOfGenres>  genre=new HashSet<enumOfGenres>();
+    private Set<EnumOfGenres>  genre=new HashSet<EnumOfGenres>();
     
     @Transient
     private String authorError;
@@ -71,9 +71,9 @@ public class Book {
     public String getName() {return name;}
     
 
-    public void setGenre(Set<enumOfGenres> genre) {this.genre = genre;}
+    public void setGenre(Set<EnumOfGenres> genre) {this.genre = genre;}
 
-    public Set<enumOfGenres> getGenre() {
+    public Set<EnumOfGenres> getGenre() {
         return genre;
     }
 
@@ -131,7 +131,7 @@ public class Book {
     
     public Set<String> getStringsFromCheckedGenres(){
         Set<String> Genres=new HashSet<String>();
-        for(enumOfGenres e:genre){
+        for(EnumOfGenres e:genre){
             Genres.add(e.toString());
         }
         return Genres;
@@ -159,36 +159,17 @@ public class Book {
     											.collect(Collectors.toSet());
     	}else return new HashSet<Author>();
     }
-    private static Set<enumOfGenres> getGenresFromCheckBox (Set<String> checkboxValues) {
+    private static Set<EnumOfGenres> getGenresFromCheckBox (Set<String> checkboxValues) {
         //Set<String> checkboxValues  не явно создает коллекцию
         //если нету значений то null а не пустая коллекция!!!
     	
     	if(checkboxValues!=null) {
     	return checkboxValues.stream()
-    						 .map((str)->enumOfGenres.valueOf(str))
+    						 .map((str)->EnumOfGenres.valueOf(str))
     					     .collect(Collectors.toSet());
-    	}else return new HashSet<enumOfGenres>();
+    	}else return new HashSet<EnumOfGenres>();
     }
     
-    @Override
-    public boolean equals(Object obj) {
-        //type cast to goal
-        if(this==obj)return true;
-        if(obj==null|| this.getClass()!=obj.getClass())return false;
-        //the same class and not null =>could cast
-        Book book = (Book) obj;
-
-        //in our case 2 books are equal when id
-        //and collection of authores are equals
-
-        if(this.Id==book.getId() &&checkCollection(this.Authors,book.getAuthors()))
-            return true;
-        else return false;
-    }
-    private boolean checkCollection(Set<Author> f,Set<Author> s){
-        //could not be null
-        return f.equals(s);
-    }
     
     private String validInputedAuthor(String authors) {
     	//must have: no dublicates,valid string
@@ -211,4 +192,34 @@ public class Book {
         //there is no problem with string
 		return null;
     }
+    public void deleteAuthor(Author author){
+    	Authors.remove(author);
+    }
+
+	@Override
+	public String toString() {
+		return name;
+	}
+	
+	 @Override
+	    public boolean equals(Object obj) {
+	        //type cast to goal
+	        if(this==obj)return true;
+	        if(obj==null|| this.getClass()!=obj.getClass())return false;
+	        //the same class and not null =>could cast
+	        Book book = (Book) obj;
+
+	        //in our case 2 books are equal when id
+	        //and collection of authors are equals
+	        
+	        boolean isNamesAreEquals=this.name.equals(book.getName());
+	        boolean isAuthorsAreEquals=this.Authors.containsAll(book.Authors);
+	        return isNamesAreEquals&&isAuthorsAreEquals;
+	    }
+
+		@Override
+		public int hashCode() {
+			return 1;
+		}
+	    
 }

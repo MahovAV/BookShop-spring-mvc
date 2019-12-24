@@ -49,13 +49,15 @@ public class Author {
 
         //in our case 2 authores are equal when names are equals
 
-        if(this.name==author.name)
-            return true;
-        else return false;
+        return this.name.equals(author.getName());
     }
+    
+    @Override
+	public int hashCode() {
+		return 1;
+	}
 
-
-    public int getId() {
+	public int getId() {
         return Id;
     }
 
@@ -83,4 +85,12 @@ public class Author {
     public void deleteBook(Book book){
         books.remove(book);
     }
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.name;
+	}
+    
+   
 }
