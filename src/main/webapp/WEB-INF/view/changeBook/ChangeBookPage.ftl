@@ -38,6 +38,8 @@
                		${authorsError}
             	</div>
             </#if>
+            <p>Description<Br>
+   		    <textarea name="information" cols="70" rows="7"><#if book??>${book.information}</#if></textarea></p>
 		    <input type="submit" value="Change book">
 		</form>
 	</body>

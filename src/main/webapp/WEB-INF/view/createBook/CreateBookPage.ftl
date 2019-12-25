@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Create new Book</title>
@@ -47,11 +45,11 @@
                ${authorsError}
           </div>
         </#if>
-		<input type="submit" value="Create New Book">
+        <p>Description<Br>
+   		<textarea name="information" cols="70" rows="7"><#if book??>${book.information}</#if></textarea></p>
+		<input type="submit" value="Create new book">
     </form>
 </body>
 </html>
-
-
 
 
