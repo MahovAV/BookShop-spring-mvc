@@ -27,13 +27,6 @@ public class Book {
     @NotEmpty(message="Name should contain at least 1 character")
     private String name;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    @CollectionTable(name = "book_NameOfCustommers", joinColumns = @JoinColumn(name = "book_id"))
-    @Column(name = "name")
-    private Collection<String> NameOfCustommers=new HashSet<String>();
-
-
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinTable(name = "Book_Author",
@@ -48,16 +41,12 @@ public class Book {
     @LazyCollection(LazyCollectionOption.FALSE)
     private Set<EnumOfGenres>  genre=new HashSet<EnumOfGenres>();
     
+    private String information;
+    
     @Transient
     private String authorError;
 
-    public Book(){}
-    
-    public Book(String name,Collection<String> NameOfCustommers){
-        this.name=name;
-        this.NameOfCustommers=NameOfCustommers;
-    }
-
+    public Book(){}   
     
     public Book (String name) {
         this.name=name;
@@ -102,14 +91,6 @@ public class Book {
 	public void setAuthorError(String authorError) {
 		this.authorError = authorError;
 	}
-
-    public Collection<String> getNameOfCustommers() {
-        return NameOfCustommers;
-    }
-
-    public void setNameOfCustommers(Collection<String> nameOfCustommers) {
-        NameOfCustommers = nameOfCustommers;
-    }
 
     //Methods for getting and setting information for view
     
@@ -219,7 +200,16 @@ public class Book {
 
 		@Override
 		public int hashCode() {
+			//TODO: WRITE HASH CODE LOGIC HERE
 			return 1;
+		}
+
+		public String getInformation() {
+			return information;
+		}
+
+		public void setInformation(String information) {
+			this.information = information;
 		}
 	    
 }

@@ -40,7 +40,7 @@ public class BookShopServiceTest {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		String[] quries = { "SET FOREIGN_KEY_CHECKS = 0;", "TRUNCATE TABLE author;", "TRUNCATE TABLE book;",
-				"TRUNCATE TABLE book_author;", "TRUNCATE TABLE book_genre;", "TRUNCATE TABLE book_nameofcustommers;",
+				"TRUNCATE TABLE book_author;", "TRUNCATE TABLE book_genre;",
 				"SET FOREIGN_KEY_CHECKS = 1;" };
 		for (int i = 0; i < quries.length; i++) {
 			NativeQuery query = session.createSQLQuery(quries[i]);
@@ -62,7 +62,7 @@ public class BookShopServiceTest {
 
 	@Test
 	public void createShouldAddBookToDataBase() {
-		Book book = new Book("1984", new ArrayList<String>());
+		Book book = new Book("1984");
 		bookShopService.createBook(book);
 		Book bookFromShop = bookShopService.getBookById(book.getId());
 		assertTrue(bookFromShop.equals(book));
@@ -70,7 +70,7 @@ public class BookShopServiceTest {
 
 	@Test
 	public void createShouldAddBookWithAuthorsToDataBaseWithCorrectLinks() {
-		Book book = new Book("1984", new ArrayList<String>());
+		Book book = new Book("1984");
 		
 		book.getAuthors().add(author1);
 		book.getAuthors().add(author2);
@@ -86,17 +86,17 @@ public class BookShopServiceTest {
 
 	@Test
 	public void createShouldnotAddAuthorsWithSameName() {
-		Book book = new Book("1984", new ArrayList<String>());
+		Book book1 = new Book("1984");
 
-		Book book2 = new Book("Narny", new ArrayList<String>());
+		Book book2 = new Book("Narny");
 
-		book.getAuthors().add(author1);
-		book.getAuthors().add(author2);
+		book1.getAuthors().add(author1);
+		book1.getAuthors().add(author2);
 
-		// book already have marks so we don t need have copy
+		// book1 already have 2 authors so we don't need to have copy of author 1
 		book2.getAuthors().add(author1);
 		
-		bookShopService.createBook(book);
+		bookShopService.createBook(book1);
 		bookShopService.createBook(book2);
 
 		// ACTUALLY HAVE 2 DISTINCT AUTHORS AND BOOKS
@@ -108,7 +108,7 @@ public class BookShopServiceTest {
 
 	@Test
 	public void updateShouldChangeManyToManyTable() {
-		Book book = new Book("1984", new ArrayList<String>());
+		Book book = new Book("1984");
 		book.setAuthors(new HashSet<Author>(Arrays.asList(author1)));
 		
 		bookShopService.createBook(book);
@@ -130,7 +130,7 @@ public class BookShopServiceTest {
 
 	@Test
 	public void deleteShouldnotDeleteAuthorWithBook() {
-		Book book = new Book("1984", new ArrayList<String>());		
+		Book book = new Book("1984");		
 		book.setAuthors(new HashSet<Author>(Arrays.asList(author1)));
 		
 		bookShopService.createBook(book);

@@ -1,0 +1,56 @@
+17:47:14,866 INFO  [DefaultTestContextBootstrapper] Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+17:47:14,881 INFO  [DefaultTestContextBootstrapper] Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@402e37bc, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@79ad8b2f, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@1df82230, org.springframework.test.context.support.DirtiesContextTestExecutionListener@22635ba0, org.springframework.test.context.transaction.TransactionalTestExecutionListener@13c10b87, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@6a01e23, org.springframework.test.context.event.EventPublishingTestExecutionListener@5a955565]
+17:47:15,636 INFO  [VersionPrinter] Flyway 4.2.0 by Boxfuse
+17:47:16,310 INFO  [DbSupportFactory] Database: jdbc:mysql://localhost:3306/BASE?useLegacyDatetimeCode=false&serverTimezone=UTC (MySQL 8.0)
+17:47:16,435 INFO  [DbValidate] Successfully validated 3 migrations (execution time 00:00.048s)
+17:47:16,451 INFO  [DbMigrate] Current version of schema `BASE`: 2
+17:47:16,455 INFO  [DbMigrate] Migrating schema `BASE` to version 3 - Add informatoin column to Author and Book
+17:47:17,300 INFO  [DbMigrate] Successfully applied 1 migration to schema `BASE` (execution time 00:00.855s).
+17:47:17,452 INFO  [Version] HHH000412: Hibernate Core {5.4.7.Final}
+17:47:17,893 INFO  [Version] HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+17:47:18,153 WARN  [pooling] HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+17:47:18,155 INFO  [pooling] HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/BASE?useLegacyDatetimeCode=false&serverTimezone=UTC]
+17:47:18,155 INFO  [pooling] HHH10001001: Connection properties: {handling_mode=DELAYED_ACQUISITION_AND_HOLD, user=root, password=****}
+17:47:18,157 INFO  [pooling] HHH10001003: Autocommit mode: false
+17:47:18,162 INFO  [DriverManagerConnectionProviderImpl] HHH000115: Hibernate connection pool size: 20 (min=1)
+17:47:18,198 INFO  [Dialect] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+17:47:18,625 INFO  [Version] HV000001: Hibernate Validator 6.0.2.Final
+17:47:19,332 INFO  [access] HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@236fdf] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+17:47:19,351 INFO  [JtaPlatformInitiator] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+17:47:21,653 INFO  [LoggerAspect] start operation create
+17:47:21,848 INFO  [LoggerAspect] end operation create with 195 msec.
+17:47:21,917 INFO  [LoggerAspect] start operation getEntityById
+17:47:21,956 INFO  [LoggerAspect] end operation getEntityById with 39 msec.
+17:47:23,829 INFO  [LoggerAspect] start operation create
+17:47:23,850 INFO  [LoggerAspect] end operation create with 21 msec.
+17:47:23,920 INFO  [LoggerAspect] start operation create
+17:47:23,946 INFO  [LoggerAspect] end operation create with 26 msec.
+17:47:24,004 INFO  [LoggerAspect] start operation getAll
+17:47:24,026 INFO  [LoggerAspect] end operation getAll with 22 msec.
+17:47:24,029 INFO  [LoggerAspect] start operation getAll
+17:47:24,062 INFO  [LoggerAspect] end operation getAll with 32 msec.
+17:47:25,851 INFO  [LoggerAspect] start operation create
+17:47:25,864 INFO  [LoggerAspect] end operation create with 12 msec.
+17:47:25,920 INFO  [LoggerAspect] start operation delete
+17:47:25,933 INFO  [LoggerAspect] end operation delete with 12 msec.
+17:47:26,003 INFO  [LoggerAspect] start operation getAll
+17:47:26,004 INFO  [LoggerAspect] end operation getAll with 1 msec.
+17:47:26,007 INFO  [LoggerAspect] start operation getAll
+17:47:26,011 INFO  [LoggerAspect] end operation getAll with 4 msec.
+17:47:27,809 INFO  [LoggerAspect] start operation create
+17:47:27,821 INFO  [LoggerAspect] end operation create with 11 msec.
+17:47:27,879 INFO  [LoggerAspect] start operation update
+17:47:27,901 INFO  [LoggerAspect] end operation update with 22 msec.
+17:47:27,971 INFO  [LoggerAspect] start operation getEntityById
+17:47:27,978 INFO  [LoggerAspect] end operation getEntityById with 7 msec.
+17:47:27,981 INFO  [LoggerAspect] start operation getByName
+17:47:27,987 INFO  [LoggerAspect] end operation getByName with 6 msec.
+17:47:27,990 INFO  [LoggerAspect] start operation getByName
+17:47:28,000 INFO  [LoggerAspect] end operation getByName with 9 msec.
+17:47:28,004 INFO  [LoggerAspect] start operation getAll
+17:47:28,013 INFO  [LoggerAspect] end operation getAll with 9 msec.
+17:47:29,746 INFO  [LoggerAspect] start operation create
+17:47:29,750 INFO  [LoggerAspect] end operation create with 4 msec.
+17:47:29,810 INFO  [LoggerAspect] start operation getEntityById
+17:47:29,818 INFO  [LoggerAspect] end operation getEntityById with 8 msec.
+17:47:29,837 INFO  [pooling] HHH10001008: Cleaning up connection pool [jdbc:mysql://localhost:3306/BASE?useLegacyDatetimeCode=false&serverTimezone=UTC]

@@ -15,12 +15,12 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
-    @Column(name = "name")
     private String name;
 
     @Embedded
-    @Column(name = "addres")
     private Addres addres;
+    
+    private String information;
 
     public Addres getAddres() {
         return addres;
@@ -54,6 +54,7 @@ public class Author {
     
     @Override
 	public int hashCode() {
+    	//TODO: WRITE HASH CODE LOGIC HERE
 		return 1;
 	}
 
@@ -91,6 +92,12 @@ public class Author {
 		// TODO Auto-generated method stub
 		return this.name;
 	}
-    
-   
+
+	public String getInformation() {
+		return information;
+	}
+
+	public void setInformation(String information) {
+		this.information = information;
+	}
 }

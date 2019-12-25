@@ -30,17 +30,17 @@ public class BookEqualsTest {
 		author2 = new Author("Oryell");
 		author2.setAddres(new Addres("Russia"));
 		
-		book = new Book("1984", new ArrayList<String>());
+		book = new Book("1984");
 		
 		book.getAuthors().add(author1);
 		book.getAuthors().add(author2);
 		
-		copyOfBook1 = new Book("1984", new ArrayList<String>());
+		copyOfBook1 = new Book("1984");
 		
 		copyOfBook1.getAuthors().add(author1);
 		copyOfBook1.getAuthors().add(author2);
 		
-		copyOfBook2= new Book("1984", new ArrayList<String>());
+		copyOfBook2= new Book("1984");
 		
 		copyOfBook2.getAuthors().add(author1);
 		copyOfBook2.getAuthors().add(author2);
