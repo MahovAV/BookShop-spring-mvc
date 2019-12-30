@@ -3,7 +3,11 @@
     <title>Create new Book</title>
 </head>
 <body>
-    <form name="NewBook" action="BookIsCreated" method="post">
+  <h1>
+    Create Book page
+  </h1>
+    <form name="NewBook" action="creatingBook" method="post">
+    <input type="hidden" name="_csrf" value="${_csrf.token}" />
 	<p>Name of book</p>
 	<input title="Name" type="text" name="name" value="<#if book??>${book.name}</#if>">
 	<#if nameError??>

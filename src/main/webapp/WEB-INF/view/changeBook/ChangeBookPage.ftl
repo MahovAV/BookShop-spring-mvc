@@ -5,8 +5,12 @@
     <title>Input new parameters</title>
 </head>
 	<body>
+	  <h1>
+    		ChangeBookPage
+  	  </h1>
 	<!-- GO BACK AS WE ARE ON COURSE/CHANGEbOOK/book.id    -->
-		<form name="NewBook" action="../BookIsChanged/${book.id}" method="post">
+		<form name="NewBook" action="../changingBook/${book.id}" method="post">
+		<input type="hidden" name="_csrf" value="${_csrf.token}" />
 		    <p>Name of book</p>
 		    <input title="Name" type="text" name="name" value="${book.name}" >
 		    <#if nameError??>

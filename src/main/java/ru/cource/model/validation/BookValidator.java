@@ -7,13 +7,14 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import ru.cource.model.domain.Book;
-import ru.cource.model.service.BookShopService;
+import ru.cource.model.service.BookShopServiceImpl;
 import ru.cource.model.service.BookShopServiceInterface;
 /**
- * A Validator for book form.
+ * A Validator for {@link Book}.
  * 
- * Valid book:1.Has unique name
- * 			  2.Has valid author string i.e. {write regular expression here}
+ * A book is valid if:
+ * 1.Has unique name 
+ * 2.Has valid author string i.e. there is no duplicates and we could parse it
  * 								
  */
 @Component
@@ -35,6 +36,12 @@ public class BookValidator implements Validator {
 		}
 	}
 
+	/**
+	 * valid {@link Book} in create methods
+	 * @param target new book
+	 * @param errors
+	 *
+	 */
 	@Override
 	public void validate(Object target, Errors errors) {
 		baseValidate(target, errors);
@@ -45,6 +52,12 @@ public class BookValidator implements Validator {
 		}
 	}
 
+	/**
+	 * valid {@link Book} in update methods
+	 * @param target new book
+	 * @param errors
+	 * @param oldBook book which we are replacing
+	 */
 	public void validate(Object target, Errors errors, Book oldBook) {
 		baseValidate(target, errors);
 		if (book.getName().equals(oldBook.getName()))

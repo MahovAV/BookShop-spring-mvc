@@ -24,7 +24,6 @@ public class HibernateBookDao extends HibernateGenericAbstractDao<Book> {
 
 	HibernateBookDao() {
 		super(Book.class);
-		System.out.println("HibernateBookDao");
 	}
 	
 	@Override

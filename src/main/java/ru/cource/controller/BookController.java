@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
 import ru.cource.model.domain.EnumOfGenres;
-import ru.cource.model.service.BookShopService;
+import ru.cource.model.domain.User;
+import ru.cource.model.service.BookShopServiceImpl;
 import ru.cource.model.validation.BookValidator;
 
 
@@ -37,7 +39,7 @@ import ru.cource.model.validation.BookValidator;
 @RequestMapping("/")
 public class BookController {
     @Autowired
-    BookShopService bookShopService;
+    BookShopServiceImpl bookShopService;
     
     @Autowired
     BookValidator bookValidator;
@@ -49,15 +51,10 @@ public class BookController {
     												  .map(en->en.name())
     			                                      .collect(Collectors.toSet());
     }
-
-
-    @GetMapping("/")
-    public String homeRedirect(){
-        return "redirect:/Home";
-    }
     
     @GetMapping("/Home")
-    public String home(){
+    public String home(@AuthenticationPrincipal User user,Model model){
+    	model.addAttribute("user", user);
         return "HomePage";
     }
 
@@ -76,7 +73,7 @@ public class BookController {
         return "CreateBookPage";
     }
 
-    @PostMapping("/BookIsCreated")
+    @PostMapping("/creatingBook")
     //page after which we have book
     //should create complete book and send it to the service
     public String creatingBook(@Valid @ModelAttribute Book book,BindingResult bindingResult,Model model) {
@@ -103,7 +100,7 @@ public class BookController {
         //changing the book with new values
         return "ChangeBookPage";
     }
-    @PostMapping("BookIsChanged/{book_id}")
+    @PostMapping("changingBook/{book_id}")
     public String changingBook(@Valid @ModelAttribute Book newbook,BindingResult bindingResult,@PathVariable(value = "book_id") int Book_id, Model model){
         Book oldbook=bookShopService.getBookById(Book_id);
         

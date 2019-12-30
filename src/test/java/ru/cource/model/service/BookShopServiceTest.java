@@ -19,17 +19,17 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Created by user on 06.11.2019.
+ * Test manyToMany implementation
  */
 @ExtendWith(SpringExtension.class) // add spring support
-@ContextConfiguration(classes = {DataBaseConfig.class,BookShopService.class,LoggerAspect.class}, 
+@ContextConfiguration(classes = {DataBaseConfig.class,BookShopServiceImpl.class,LoggerAspect.class}, 
 	loader = AnnotationConfigContextLoader.class)
 public class BookShopServiceTest {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
 	@Autowired
-	private BookShopService bookShopService;
+	private BookShopServiceImpl bookShopService;
 	
 	private Author author1;
 	

@@ -22,7 +22,6 @@ public class HibernateAuthorDao extends HibernateGenericAbstractDao<Author>{
 
 	HibernateAuthorDao() {
 		super(Author.class);
-		System.out.println("HibernateAuthorDao");
 	}
 
 	@Override
@@ -58,7 +57,6 @@ public class HibernateAuthorDao extends HibernateGenericAbstractDao<Author>{
 	}
 
 	@Override
-	@Transactional
 	public void create(Author entity) {
     	session=factory.getCurrentSession();
         session.save(entity);

@@ -22,6 +22,7 @@
 	</properties>
 
 	<dependencies>
+
 		<!-- SERVLET -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -56,6 +57,32 @@
 			<artifactId>freemarker</artifactId>
 			<version>2.3.28</version>
 		</dependency>
+		
+		<!-- Security -->
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-framework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring-framework.version}</version>
+        </dependency>
 
 		<!--TESTING -->
 		<dependency>
@@ -80,13 +107,13 @@
 		<!-- DATABASE -->
 		<!-- data base connections pool -->
 		<dependency>
-    		<groupId>org.apache.commons</groupId>
-    		<artifactId>commons-dbcp2</artifactId>
-    		<version>2.1</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>2.1</version>
 		</dependency>
 
-		
-		<!-- needed for @Transactoinal  transaction manager -->
+
+		<!-- needed for @Transactoinal transaction manager -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>

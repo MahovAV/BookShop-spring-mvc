@@ -32,7 +32,7 @@ public class WebConfig implements WebMvcConfigurer  {
     public FreeMarkerConfigurer getFreeMarkerConfigurer(){
         FreeMarkerConfigurer freemarkerConfigurer = new FreeMarkerConfigurer();
         freemarkerConfigurer.setTemplateLoaderPaths("/","WEB-INF/view","WEB-INF/view/changeBook",
-        		"WEB-INF/view/createBook","WEB-INF/view/deleteBook");
+        		"WEB-INF/view/createBook","WEB-INF/view/deleteBook","WEB-INF/view/Authentification");
         return freemarkerConfigurer;
     }
 
