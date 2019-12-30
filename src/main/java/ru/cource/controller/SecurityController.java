@@ -35,7 +35,7 @@ public class SecurityController {
     
     @GetMapping(value = "/signUp")
     public String registrationPage(){
-        return "RegistrationPage";
+        return "Security/RegistrationPage";
     }
     @PostMapping(value = "/signUp")
     public String registering(@Valid @ModelAttribute User user,BindingResult bindingResult,Model model) {
@@ -56,6 +56,6 @@ public class SecurityController {
     	if(Boolean.TRUE.equals(error)) { //not if(error) because error could be null
     		model.addAttribute("loginError","Wrong username or password");
     	}
-    	return "LoginPage";
+    	return "Security/LoginPage";
     }       
 }

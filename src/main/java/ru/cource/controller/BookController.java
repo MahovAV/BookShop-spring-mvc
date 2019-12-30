@@ -61,7 +61,7 @@ public class BookController {
     @GetMapping("/getAll")
     public String getAllUsers(Model model){
         model.addAttribute("books",bookShopService.GetAllBook());
-        return "AllBooks";
+        return "Book/AllBooks";
     }
 
 
@@ -70,10 +70,10 @@ public class BookController {
     //should have all possible GENRES
     public String createBookPage(Model model){
         model.addAttribute("AllGenres",allGenre);
-        return "CreateBookPage";
+        return "Book/CreateBookPage";
     }
 
-    @PostMapping("/creatingBook")
+    @PostMapping("/CreateBook")
     //page after which we have book
     //should create complete book and send it to the service
     public String creatingBook(@Valid @ModelAttribute Book book,BindingResult bindingResult,Model model) {
@@ -84,10 +84,11 @@ public class BookController {
     		model.mergeAttributes(FiledErrors);
     		model.addAttribute("AllGenres",allGenre);
     		model.addAttribute("book",book);
-    		return "CreateBookPage";
+    		return "Book/CreateBookPage";
     	}
         bookShopService.createBook(book);
-        return "BookIsCreated";
+        //book succesfully added redirect to all book
+        return "redirect:/getAll";
     }
 
     @GetMapping("ChangeBook/{book_id}")
@@ -98,9 +99,9 @@ public class BookController {
         model.addAttribute("book",book);
         //send all data to user and wait new value to change the book
         //changing the book with new values
-        return "ChangeBookPage";
+        return "Book/ChangeBookPage";
     }
-    @PostMapping("changingBook/{book_id}")
+    @PostMapping("ChangeBook/{book_id}")
     public String changingBook(@Valid @ModelAttribute Book newbook,BindingResult bindingResult,@PathVariable(value = "book_id") int Book_id, Model model){
         Book oldbook=bookShopService.getBookById(Book_id);
         
@@ -112,39 +113,35 @@ public class BookController {
     		model.addAttribute("AllGenres",allGenre);
     		newbook.setId(Book_id);
     		model.addAttribute("book",newbook);
-    		return "ChangeBookPage";
+    		return "Book/ChangeBookPage";
     	}
-        
+    	//get old book due to ID,new book is POJO
         oldbook.setAuthors(newbook.getAuthors());
         oldbook.setGenre(newbook.getGenre());
         oldbook.setName(newbook.getName());
+        oldbook.setInformation(newbook.getInformation());
         model.addAttribute("book_id",oldbook.getId());
         bookShopService.updateBook(oldbook);
-        return "BookIsChanged";
+        return "redirect:/getAll";
     }
 
     @GetMapping("/DeleteBook/{book_id}")
     public String deleteBookPage(@PathVariable(value = "book_id") int Book_id,Model model) {
         //should be here only to redirect POST request with id
         model.addAttribute("Book_id",Book_id);
-        return "DeleteBookPage";
+        return "Book/DeleteBookPage";
     }
 
-    @PostMapping("/DeletingBook/{book_id}")
+    @PostMapping("/DeleteBook/{book_id}")
     public String deletingBook(@RequestParam(value = "descition", required = false) String decision,
                               @PathVariable(value = "book_id") int Book_id) {
         //user have made decision delete or not book
         if(decision.equals("YES")){
             bookShopService.deleteBookById(Book_id);
-            return "redirect:/bookIsDeleted";
+            return "redirect:/getAll";
         }
         return "redirect:/getAll";
     }
-    @GetMapping("/bookIsDeleted")
-    //needed only for redirecting
-    public String deletingOfBookIsConfirmd() {
-    	return "bookIsDeleted";
-    }	
 }
 
 

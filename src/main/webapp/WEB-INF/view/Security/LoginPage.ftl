@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Spring Security Example </title>
-</head>
-<body>
+<#import "../parts/common.ftl" as c>
+<@c.page "LoginPage">
 Login page
 <form action="signIn/process" method="post">
 	<input type="hidden" name="_csrf" value="${_csrf.token}" />
@@ -17,5 +13,4 @@ Login page
     <div><input type="submit" value="Sign In"/></div>
 </form>
 <a href="signUp">signUp</a>
-</body>
-</html>
+</@c.page>

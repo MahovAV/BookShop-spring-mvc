@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Registration</title>
-</head>
-  <h1>
-    Registration Page
-  </h1>
-	<body>
-		<form name="signUp" action="signUp" method="post">
-		<input type="hidden" name="_csrf" value="${_csrf.token}" />
+<#import "../parts/common.ftl" as c>
+<@c.page "RegistrationPage">
+<form name="signUp" action="signUp" method="post">
+	<input type="hidden" name="_csrf" value="${_csrf.token}" />
 			<p>NickName</p>
 	    		<input title="Name" type="text" name="name" value="<#if user??>${user.name}</#if>">
 		 		<#if nameError??>
@@ -38,12 +30,11 @@
 	                	${confPasswordError}
 	        		</div>
 	     		</#if>
-	        <p>
-	        register as :
-	        <Br><input type="radio" name="role" value="admin" checked> Admin(clould create and update book)</Br>
-	        <Br><input type="radio" name="role" value="user"> User(could watch book)</Br>
-	        </p>
-	        <input type="submit" value="Sign Up">
-      </form>
-	</body>
-</html>
+	<p>
+		register as :
+		<Br><input type="radio" name="role" value="admin" checked> Admin(clould create and update book)</Br>
+		<Br><input type="radio" name="role" value="user"> User(could watch book)</Br>
+	</p>
+	<input type="submit" value="Sign Up">
+</form>
+</@c.page>
