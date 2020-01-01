@@ -44,7 +44,7 @@ public class SecurityController {
     		Map<String,String> FiledErrors=ControllerUtils.getErrors(bindingResult);
     		model.mergeAttributes(FiledErrors);
     		model.addAttribute("user",user);
-    		return("RegistrationPage");
+    		return("Security/RegistrationPage");
     	}
     	userService.registerUser(user);
     	return "redirect:/login";

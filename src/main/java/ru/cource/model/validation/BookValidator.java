@@ -53,7 +53,7 @@ public class BookValidator implements Validator {
 	}
 
 	/**
-	 * valid {@link Book} in update methods
+	 * valid {@link Book} in update methods:should allow new book has the same name as old book due to we replace it
 	 * @param target new book
 	 * @param errors
 	 * @param oldBook book which we are replacing
@@ -62,7 +62,7 @@ public class BookValidator implements Validator {
 		baseValidate(target, errors);
 		if (book.getName().equals(oldBook.getName()))
 			return;
-		// book have different names should check
+		// book have different names should check if is it try to replace another book
 		if (service.getBookByName(book.getName()) != null) {
 			errors.rejectValue("name", "", "Cannot replace book");
 		}

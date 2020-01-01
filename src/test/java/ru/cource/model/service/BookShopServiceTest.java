@@ -36,16 +36,10 @@ public class BookShopServiceTest {
 	private Author author2;
 	
 	public void cleanBase() {
-
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		String[] quries = { "SET FOREIGN_KEY_CHECKS = 0;", "TRUNCATE TABLE author;", "TRUNCATE TABLE book;",
-				"TRUNCATE TABLE book_author;", "TRUNCATE TABLE book_genre;",
-				"SET FOREIGN_KEY_CHECKS = 1;" };
-		for (int i = 0; i < quries.length; i++) {
-			NativeQuery query = session.createSQLQuery(quries[i]);
-			query.executeUpdate();
-		}
+		NativeQuery query = session.createSQLQuery("call truncate_all_tables();");
+		query.executeUpdate();
 		session.getTransaction().commit();
 		session.close();
 	}
@@ -126,6 +120,24 @@ public class BookShopServiceTest {
 		assertEquals(2, bookShopService.GetAllAuthors().size());
 		assertFalse(author1FromDataBase.getBooks().contains(persistedUpdatedBook));
 		assertTrue(author2FromDataBase.getBooks().contains(persistedUpdatedBook));
+	}
+	
+	@Test
+	public void updateShouldNotCreateDublicates() {
+		Book book = new Book("1984");
+		book.setAuthors(new HashSet<Author>(Arrays.asList(author1)));
+		
+		bookShopService.createBook(book);
+	
+		book.setAuthors(new HashSet<Author>(Arrays.asList(author2)));
+
+		bookShopService.updateBook(book);
+		
+		book.setAuthors(new HashSet<Author>(Arrays.asList(author1)));
+
+		bookShopService.updateBook(book);
+		//have only 2 not 3 authors
+		assertEquals(bookShopService.GetAllAuthors().size(),2);
 	}
 
 	@Test

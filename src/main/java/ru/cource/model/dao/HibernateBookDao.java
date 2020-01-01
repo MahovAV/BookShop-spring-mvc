@@ -25,7 +25,7 @@ public class HibernateBookDao extends HibernateGenericAbstractDao<Book> {
 	HibernateBookDao() {
 		super(Book.class);
 	}
-	
+
 	@Override
 	public Book getEntityById(int id) {
 		return (Book) super.getEntityById(id);
@@ -33,34 +33,20 @@ public class HibernateBookDao extends HibernateGenericAbstractDao<Book> {
 
 	@Override
 	public void update(Book entity) {
-		//should throw exception if there is no book with that id
+		// should throw exception if there is no book with that id
 		session = factory.getCurrentSession();
-		Book oldBook = session.get(Book.class, entity.getId());
-		Set<Author> oldAuthors = oldBook.getAuthors();
-		Set<Author> NewAuthors = entity.getAuthors();
-		//should delete for each author link to new book 
-		for (Author author : oldAuthors) {
-			if (NewAuthors == null || !NewAuthors.contains(author)) {
-				author.deleteBook(entity);
-			}
-		}
-		session.merge(entity);
+
+		session.update(entity);
 	}
 
 	@Override
 	public void delete(int id) {
 		session = factory.getCurrentSession();
-		// cannot execute it in open session!!!
 		Book deletingBook = session.get(Book.class, id);
 		Set<Author> authors = deletingBook.getAuthors();
 		for (Author a : authors) {
 			a.deleteBook(deletingBook);
-			// NO NEED MERGE HERE AS WE WILL COMMIT
-			// AUTOMATICLY WILL MANAGE IT VIA DIRTY CHECKING
 		}
-
-		// dont have relation ship with not existed book
-		// could delete book
 		session.delete(deletingBook);
 	}
 
@@ -68,30 +54,6 @@ public class HibernateBookDao extends HibernateGenericAbstractDao<Book> {
 	public void create(Book entity) {
 		session = factory.getCurrentSession();
 
-		Set<Author> allAuthors = entity.getAuthors();
-
-		List<Author> whoInDataBase = new ArrayList<Author>();
-
-		List<Author> whoIsNotInDataBase = new ArrayList<Author>();
-
-		Predicate<Author> isInDataBase = (author) -> getAuthorByName(session, author.getName()).isPresent();
-
-		Function<Author, Author> getFromDataBase = (pojoAuthor) -> {
-			return getAuthorByName(session, pojoAuthor.getName()).get();
-		};
-
-		whoInDataBase = allAuthors.stream().filter(isInDataBase).map(getFromDataBase).collect(Collectors.toList());
-
-		whoIsNotInDataBase = allAuthors.stream().filter(isInDataBase.negate())
-				.peek((newAuthor) -> session.save(newAuthor)).collect(Collectors.toList());
-
-		Set<Author> ResultSet = new HashSet<Author>();
-
-		ResultSet.addAll(whoInDataBase);
-
-		ResultSet.addAll(whoIsNotInDataBase);
-
-		entity.setAuthors(ResultSet);
 		session.save(entity);
 	}
 
@@ -102,14 +64,6 @@ public class HibernateBookDao extends HibernateGenericAbstractDao<Book> {
 		query.setParameter("paramName", name);
 		Data = (Book) query.uniqueResult();
 		return Data;
-	}
-
-	private static Optional<Author> getAuthorByName(Session session, String name) {
-		// if there is no object we return null
-
-		Query query = session.createQuery("FROM Author A WHERE name = :paramName");
-		query.setParameter("paramName", name);
-		return Optional.ofNullable((Author) query.uniqueResult());
 	}
 
 	@Override

@@ -103,8 +103,7 @@ public class BookController {
     }
     @PostMapping("ChangeBook/{book_id}")
     public String changingBook(@Valid @ModelAttribute Book newbook,BindingResult bindingResult,@PathVariable(value = "book_id") int Book_id, Model model){
-        Book oldbook=bookShopService.getBookById(Book_id);
-        
+        Book oldbook=bookShopService.getBookById(Book_id);       
         bookValidator.validate(newbook, bindingResult,oldbook);
     	if(bindingResult.hasErrors()) {
     		//should return our wrong user and error message to show
@@ -116,12 +115,8 @@ public class BookController {
     		return "Book/ChangeBookPage";
     	}
     	//get old book due to ID,new book is POJO
-        oldbook.setAuthors(newbook.getAuthors());
-        oldbook.setGenre(newbook.getGenre());
-        oldbook.setName(newbook.getName());
-        oldbook.setInformation(newbook.getInformation());
-        model.addAttribute("book_id",oldbook.getId());
-        bookShopService.updateBook(oldbook);
+    	newbook.setId(Book_id);
+        bookShopService.updateBook(newbook);
         return "redirect:/getAll";
     }
 
