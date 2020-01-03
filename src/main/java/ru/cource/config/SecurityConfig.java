@@ -13,6 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import ru.cource.security.AuthProviderImpl;
 
+/**
+ * 
+ * @author AlexanderM-O
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = "ru.cource.security")
@@ -28,19 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-		.antMatchers("/signUp","/").permitAll()
-		.antMatchers("/Home","/getAll").hasRole("USER")
-		.antMatchers("/**").hasRole("ADMIN")
-		.anyRequest().authenticated()
-			.and()
-		.formLogin()
-		.loginPage("/signIn")
-		.loginProcessingUrl("/signIn/process")
-		.defaultSuccessUrl("/Home",true)
-		//send as parametr error value and display it in user
-		.failureUrl("/signIn?error=true")
-		.permitAll();
+		http.authorizeRequests().antMatchers("/signUp", "/").permitAll().antMatchers("/Home", "/getAll").hasRole("USER")
+				.antMatchers("/**").hasRole("ADMIN").anyRequest().authenticated().and().formLogin().loginPage("/signIn")
+				.loginProcessingUrl("/signIn/process").defaultSuccessUrl("/Home", true)
+				// send as parametr error value and display it in user
+				.failureUrl("/signIn?error=true").permitAll();
 	}
 
 	@Override

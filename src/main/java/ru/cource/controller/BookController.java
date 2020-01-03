@@ -1,21 +1,17 @@
 package ru.cource.controller;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,23 +19,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
-import ru.cource.model.domain.EnumOfGenres;
+import ru.cource.model.domain.Genre;
 import ru.cource.model.domain.User;
-import ru.cource.model.service.BookShopServiceImpl;
+import ru.cource.model.service.BookShopServiceInterface;
 import ru.cource.model.validation.BookValidator;
 
 
-
 /**
- * Created by user on 12.11.2019.
+ * 
+ * @author AlexanderM-O
+ *
  */
 @Controller
 @RequestMapping("/")
 public class BookController {
     @Autowired
-    BookShopServiceImpl bookShopService;
+    BookShopServiceInterface bookShopService;
     
     @Autowired
     BookValidator bookValidator;
@@ -47,7 +43,7 @@ public class BookController {
     static Set<String> allGenre;
     
     static {
-    	 allGenre=Arrays.asList(EnumOfGenres.values()).stream()
+    	 allGenre=Arrays.asList(Genre.values()).stream()
     												  .map(en->en.name())
     			                                      .collect(Collectors.toSet());
     }

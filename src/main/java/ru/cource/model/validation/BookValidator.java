@@ -7,15 +7,16 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import ru.cource.model.domain.Book;
-import ru.cource.model.service.BookShopServiceImpl;
+import ru.cource.model.service.BookShopServiceHibernateImpl;
 import ru.cource.model.service.BookShopServiceInterface;
+
 /**
- * A Validator for {@link Book}.
+ * A Validator for {@link Book}.A {@link Book} is valid if its has unique name
+ * and has valid author string i.e. there is no duplicates and we could parse it
  * 
- * A book is valid if:
- * 1.Has unique name 
- * 2.Has valid author string i.e. there is no duplicates and we could parse it
- * 								
+ * 
+ * @author AlexanderM-O
+ *
  */
 @Component
 public class BookValidator implements Validator {
@@ -38,6 +39,7 @@ public class BookValidator implements Validator {
 
 	/**
 	 * valid {@link Book} in create methods
+	 * 
 	 * @param target new book
 	 * @param errors
 	 *
@@ -53,8 +55,10 @@ public class BookValidator implements Validator {
 	}
 
 	/**
-	 * valid {@link Book} in update methods:should allow new book has the same name as old book due to we replace it
-	 * @param target new book
+	 * valid {@link Book} in update methods:should allow new book has the same name
+	 * as old book due to we replace it
+	 * 
+	 * @param target  new book
 	 * @param errors
 	 * @param oldBook book which we are replacing
 	 */
@@ -62,7 +66,7 @@ public class BookValidator implements Validator {
 		baseValidate(target, errors);
 		if (book.getName().equals(oldBook.getName()))
 			return;
-		// book have different names should check if is it try to replace another book
+		// book have different names should check is it try to replace another book
 		if (service.getBookByName(book.getName()) != null) {
 			errors.rejectValue("name", "", "Cannot replace book");
 		}

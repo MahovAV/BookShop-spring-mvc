@@ -7,12 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
 import ru.cource.model.domain.User;
 
+/**
+ * DAO class for {@link User}
+ * 
+ * @author AlexanderM-O
+ *
+ */
+
 @Repository
 public class HibernateUserDao extends HibernateGenericAbstractDao<User> {
-	
+
 	HibernateUserDao() {
 		super(User.class);
 	}
@@ -40,8 +48,8 @@ public class HibernateUserDao extends HibernateGenericAbstractDao<User> {
 
 	@Override
 	public void create(User entity) {
-    	session=factory.getCurrentSession();
-        session.save(entity);
+		session = factory.getCurrentSession();
+		session.save(entity);
 	}
 
 	public User getByName(String name) {
@@ -61,5 +69,5 @@ public class HibernateUserDao extends HibernateGenericAbstractDao<User> {
 		Data = (User) query.uniqueResult();
 		return Data;
 	}
-	
+
 }

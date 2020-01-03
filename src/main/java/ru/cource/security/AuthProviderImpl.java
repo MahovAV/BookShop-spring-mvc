@@ -19,33 +19,37 @@ import ru.cource.model.domain.Role;
 import ru.cource.model.domain.User;
 import ru.cource.model.service.UserServiceInterface;
 
+/**
+ * 
+ * @author AlexanderM-O
+ *
+ */
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
 
 	@Autowired
 	UserServiceInterface service;
-	
+
 	@Autowired
 	PasswordEncoder encoder;
-	
+
 	@Override
-	//Authentication -инкапсулирует данные которые пользователь предоставил
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		String name=authentication.getName();
-		User user=service.findUserByName(name);
-		if(user==null) {
+		String name = authentication.getName();
+		User user = service.findUserByName(name);
+		if (user == null) {
 			throw new UsernameNotFoundException("No user with such name");
 		}
-		String password=(String) authentication.getCredentials();
-		if(!encoder.matches(password, user.getPassword())) {
+		String password = (String) authentication.getCredentials();
+		if (!encoder.matches(password, user.getPassword())) {
 			throw new BadCredentialsException("Wrong password");
 		}
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		for(Role r:user.getRoles()) {
-			authorities.add(new SimpleGrantedAuthority("ROLE_"+r.toString()));
+		for (Role r : user.getRoles()) {
+			authorities.add(new SimpleGrantedAuthority("ROLE_" + r.toString()));
 		}
-		//Encapsulate password and user and authorities into token
-		return new UsernamePasswordAuthenticationToken(user,null,authorities);
+		// Encapsulate password and user and authorities into token
+		return new UsernamePasswordAuthenticationToken(user, null, authorities);
 	}
 
 	@Override

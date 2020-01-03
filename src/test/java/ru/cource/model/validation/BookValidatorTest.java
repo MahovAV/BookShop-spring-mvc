@@ -15,9 +15,14 @@ import ru.cource.model.service.BookShopServiceInterface;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * Test for {@link BookValidator}
+ * 
+ * @author AlexanderM-O
+ *
+ */
 @ExtendWith(SpringExtension.class) // add spring support
-@ContextConfiguration(classes = BookValidatorTestConfig.class, 
-	loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = BookValidatorTestConfig.class, loader = AnnotationConfigContextLoader.class)
 public class BookValidatorTest {
 	@Autowired
 	BookValidator validator;
@@ -41,27 +46,27 @@ public class BookValidatorTest {
 		// perform action
 		Errors errors = mock(Errors.class);
 		validator.validate(book, errors);
-		verify(errors, never()).rejectValue(eq("name"), any(),any());
+		verify(errors, never()).rejectValue(eq("name"), any(), any());
 	}
 
 	@Test
 	public void validateShouldRejectWithTakenName() {
-		//have book
+		// have book
 		when(mockService.getBookByName(nameOfBook)).thenReturn(new Book());
 		// perform action
 		Errors errors = mock(Errors.class);
 		validator.validate(book, errors);
-		verify(errors, times(1)).rejectValue(eq("name"), any(),any());
+		verify(errors, times(1)).rejectValue(eq("name"), any(), any());
 	}
 
 	@Test
 	public void validateShouldRejectWithWrongAuthor() {
-		//have book
+		// have book
 		when(mockService.getBookByName(nameOfBook)).thenReturn(new Book());
 		when(book.getAuthorError()).thenReturn("SomeString");
 		// perform action
 		Errors errors = mock(Errors.class);
 		validator.validate(book, errors);
-		verify(errors, times(1)).rejectValue(eq("authors"), any(),any());
+		verify(errors, times(1)).rejectValue(eq("authors"), any(), any());
 	}
 }

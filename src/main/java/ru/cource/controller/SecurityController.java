@@ -20,6 +20,11 @@ import ru.cource.model.domain.User;
 import ru.cource.model.service.UserServiceInterface;
 import ru.cource.model.validation.UserValidator;
 
+/**
+ * 
+ * @author AlexanderM-O
+ *
+ */
 @Controller
 @RequestMapping("/")
 public class SecurityController {

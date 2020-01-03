@@ -14,19 +14,22 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 /**
- * Created by user on 12.11.2019.
+ * 
+ * @author AlexanderM-O
+ *
  */
 @Configuration
-@ComponentScan(basePackages= {"ru.cource.controller"})
+@ComponentScan(basePackages = { "ru.cource.controller" })
 @Order(1)
 public class WebAppInitializer implements WebApplicationInitializer {
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-        context.register(CoreConfig.class,WebConfig.class);
-        //ЗАРЕГИСТРИРОВАЛИ СВОИСТВА
-        context.setServletContext(servletContext);
-        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(context));
-        dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
-    }
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
+		context.register(CoreConfig.class, WebConfig.class);
+		// ЗАРЕГИСТРИРОВАЛИ СВОИСТВА
+		context.setServletContext(servletContext);
+		ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher",
+				new DispatcherServlet(context));
+		dispatcher.setLoadOnStartup(1);
+		dispatcher.addMapping("/");
+	}
 }

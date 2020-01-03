@@ -5,16 +5,18 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
-import ru.cource.config.WebAppInitializer;
-
+/**
+ * Used for log and measure execution time for database operations
+ * 
+ * @author AlexanderM-O
+ *
+ */
 @Aspect
 @Component
 @EnableAspectJAutoProxy(proxyTargetClass = true)

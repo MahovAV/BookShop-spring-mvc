@@ -15,22 +15,25 @@ import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
 
 /**
- * Created by user on 03.11.2019.
+ * Encapsulate hibernate basic stuff
+ * 
+ * @author AlexanderM-O
+ *
  */
 public abstract class HibernateGenericAbstractDao<E> implements Dao<E> {
 	@Autowired
 	protected SessionFactory factory;
-	
-    protected Session session=null;
-    
-    final Class<E> entityClass;
-    
-    HibernateGenericAbstractDao(Class<E> entityClass){
+
+	protected Session session = null;
+
+	final Class<E> entityClass;
+
+	HibernateGenericAbstractDao(Class<E> entityClass) {
 		this.entityClass = entityClass;
-    }
-    
+	}
+
 	@Override
-	public<E> E getEntityById(int id) {
+	public <E> E getEntityById(int id) {
 		return (E) factory.getCurrentSession().get(entityClass, id);
 	}
 }

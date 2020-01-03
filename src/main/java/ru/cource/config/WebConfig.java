@@ -15,24 +15,27 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 /**
- * Created by user on 12.11.2019.
+ * 
+ * @author AlexanderM-O
+ *
  */
 @Configuration
 @EnableWebMvc
-public class WebConfig implements WebMvcConfigurer  {
-    @Bean
-    public ViewResolver getViewResolver(){
-        FreeMarkerViewResolver freeMarkerViewResolver =new FreeMarkerViewResolver();
-        freeMarkerViewResolver.setOrder(1);
-        freeMarkerViewResolver.setSuffix(".ftl");
-        freeMarkerViewResolver.setPrefix("");
-        return freeMarkerViewResolver;
-    }
-    @Bean
-    public FreeMarkerConfigurer getFreeMarkerConfigurer(){
-        FreeMarkerConfigurer freemarkerConfigurer = new FreeMarkerConfigurer();
-        freemarkerConfigurer.setTemplateLoaderPaths("WEB-INF/view");
-        return freemarkerConfigurer;
-    }
+public class WebConfig implements WebMvcConfigurer {
+	@Bean
+	public ViewResolver getViewResolver() {
+		FreeMarkerViewResolver freeMarkerViewResolver = new FreeMarkerViewResolver();
+		freeMarkerViewResolver.setOrder(1);
+		freeMarkerViewResolver.setSuffix(".ftl");
+		freeMarkerViewResolver.setPrefix("");
+		return freeMarkerViewResolver;
+	}
+
+	@Bean
+	public FreeMarkerConfigurer getFreeMarkerConfigurer() {
+		FreeMarkerConfigurer freemarkerConfigurer = new FreeMarkerConfigurer();
+		freemarkerConfigurer.setTemplateLoaderPaths("WEB-INF/view");
+		return freemarkerConfigurer;
+	}
 
 }

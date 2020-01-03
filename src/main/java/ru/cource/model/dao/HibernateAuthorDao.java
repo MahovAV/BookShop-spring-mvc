@@ -12,13 +12,15 @@ import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
 import ru.cource.model.dao.HibernateGenericAbstractDao;
 
-
 /**
- * Created by user on 05.11.2019.
+ * DAO class for {@link Author}
+ * 
+ * @author AlexanderM-O
+ *
  */
 
 @Repository
-public class HibernateAuthorDao extends HibernateGenericAbstractDao<Author>{
+public class HibernateAuthorDao extends HibernateGenericAbstractDao<Author> {
 
 	HibernateAuthorDao() {
 		super(Author.class);
@@ -58,10 +60,10 @@ public class HibernateAuthorDao extends HibernateGenericAbstractDao<Author>{
 
 	@Override
 	public void create(Author entity) {
-    	session=factory.getCurrentSession();
-        session.save(entity);
+		session = factory.getCurrentSession();
+		session.save(entity);
 	}
-	
+
 	@Override
 	public List<Author> getAll() {
 		List<Author> Data;

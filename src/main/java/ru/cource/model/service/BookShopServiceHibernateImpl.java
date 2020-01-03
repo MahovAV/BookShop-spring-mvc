@@ -18,17 +18,21 @@ import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
 
 /**
- * Created by user on 07.11.2019.
+ * Implementation of {@link BookShopServiceInterface}
+ * 
+ * 
+ * @author AlexanderM-O
+ *
  */
 @Transactional
 @Service
-public class BookShopServiceImpl implements BookShopServiceInterface {
+public class BookShopServiceHibernateImpl implements BookShopServiceInterface {
 	@Autowired
 	private HibernateBookDao bookDAO;
 	@Autowired
 	private HibernateAuthorDao authorDAO;
 
-	public BookShopServiceImpl() {
+	public BookShopServiceHibernateImpl() {
 	}
 
 	public void createBook(Book book) {
@@ -46,7 +50,6 @@ public class BookShopServiceImpl implements BookShopServiceInterface {
 
 	public Author getAuthorByName(String Name) {
 		return authorDAO.getByName(Name);
-
 	}
 
 	public List<Book> GetAllBook() {
@@ -73,24 +76,21 @@ public class BookShopServiceImpl implements BookShopServiceInterface {
 	}
 
 	/**
-	 * used to prevent duplicates in database:by default we have authors with same name.
+	 * Needed for prevent inserting to database authors with same names
 	 * 
 	 * @param entity
 	 */
 	private void replaceDuplicatedByNameAuthors(Book entity) {
 		Set<Author> allAuthors = entity.getAuthors();
 
-		List<Author> whoInDataBase = new ArrayList<Author>();
-
-		List<Author> whoIsNotInDataBase = new ArrayList<Author>();
-
 		Predicate<Author> isInDataBase = (author) -> authorDAO.getByName(author.getName()) == null ? false : true;
 
 		Function<Author, Author> getFromDataBase = (author) -> authorDAO.getByName(author.getName());
 
-		whoInDataBase = allAuthors.stream().filter(isInDataBase).map(getFromDataBase).collect(Collectors.toList());
+		List<Author> whoInDataBase = allAuthors.stream().filter(isInDataBase).map(getFromDataBase)
+				.collect(Collectors.toList());
 
-		whoIsNotInDataBase = allAuthors.stream().filter(isInDataBase.negate())
+		List<Author> whoIsNotInDataBase = allAuthors.stream().filter(isInDataBase.negate())
 				.peek((newAuthor) -> authorDAO.create(newAuthor)).collect(Collectors.toList());
 
 		Set<Author> ResultSet = new HashSet<Author>();

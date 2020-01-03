@@ -20,33 +20,40 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+/**
+ * POJO domain object representing an User.
+ * 
+ * @author AlexanderM-O
+ *
+ */
 @Entity
 @Table(name = "Usr")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int Id;
 
-    @NotEmpty(message="Name should contain at least 1 character")
-    private String name;
-    
-    @Email(message="incorrect email")
-    private String email;
-    
-    @NotEmpty(message="empty password")
-    @Size(min=4,message="password should have 4 or more characters")
-    private String password;
-    
-    @Transient
-    private String confPassword;
-    
-    @ElementCollection(targetClass=Role.class,fetch=FetchType.EAGER)
-    @CollectionTable(name="user_role",joinColumns=@JoinColumn(name="user_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name="role")
-    Set<Role> roles=new HashSet<Role>();
-    
-    public User(){};
+	@NotEmpty(message = "Name should contain at least 1 character")
+	private String name;
+
+	@Email(message = "incorrect email")
+	private String email;
+
+	@NotEmpty(message = "empty password")
+	@Size(min = 4, message = "password should have 4 or more characters")
+	private String password;
+
+	@Transient
+	private String confPassword;
+
+	@ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+	@CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+	@Enumerated(EnumType.STRING)
+	@Column(name = "role")
+	Set<Role> roles = new HashSet<Role>();
+
+	public User() {
+	};
 
 	public int getId() {
 		return Id;
@@ -67,9 +74,10 @@ public class User {
 	public Set<Role> getRoles() {
 		return roles;
 	}
-	//used for view
+
+	// used for view
 	public void setRole(String role) {
-		if(role.equals("admin")) {
+		if (role.equals("admin")) {
 			roles.add(Role.ADMIN);
 		}
 		roles.add(Role.USER);
@@ -86,7 +94,6 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 
 	public String getPassword() {
 		return password;
@@ -106,19 +113,21 @@ public class User {
 
 	@Override
 	public boolean equals(Object obj) {
-        //type cast to goal
-        if(this==obj)return true;
-        if(obj==null|| this.getClass()!=obj.getClass())return false;
-        //the same class and not null =>could cast
-        User user = (User) obj;
-     
-        return (this.email.equals(user.email)&&this.name.equals(user.name)
-        		&&this.roles.equals(user.roles));
+		// type cast to goal
+		if (this == obj)
+			return true;
+		if (obj == null || this.getClass() != obj.getClass())
+			return false;
+		// the same class and not null =>could cast
+		User user = (User) obj;
+
+		return (this.email.equals(user.email) && this.name.equals(user.name) && this.roles.equals(user.roles));
 	}
+
 	@Override
 	public int hashCode() {
-		//TODO: WRITE HASH CODE LOGIC HERE
+		// TODO: WRITE HASH CODE LOGIC HERE
 		return 1;
 	}
-    
+
 }

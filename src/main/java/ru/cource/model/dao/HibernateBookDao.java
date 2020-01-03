@@ -17,7 +17,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * Created by user on 05.11.2019.
+ * DAO class for {@link Book}
+ * 
+ * @author AlexanderM-O
+ *
  */
 @Repository
 public class HibernateBookDao extends HibernateGenericAbstractDao<Book> {
@@ -43,10 +46,8 @@ public class HibernateBookDao extends HibernateGenericAbstractDao<Book> {
 	public void delete(int id) {
 		session = factory.getCurrentSession();
 		Book deletingBook = session.get(Book.class, id);
-		Set<Author> authors = deletingBook.getAuthors();
-		for (Author a : authors) {
-			a.deleteBook(deletingBook);
-		}
+		deletingBook.setAuthors(new HashSet<Author>());
+		session.flush();
 		session.delete(deletingBook);
 	}
 

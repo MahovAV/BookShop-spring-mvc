@@ -5,87 +5,91 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by user on 05.11.2019.
+ * POJO domain object representing an Author.
+ * 
+ * @author AlexanderM-O
+ *
  */
-
 @Entity
 @Table(name = "Author")
 public class Author {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int Id;
 
-    private String name;
+	private String name;
 
-    @Embedded
-    private Addres addres;
-    
-    private String information;
+	@Embedded
+	private Addres addres;
 
-    public Addres getAddres() {
-        return addres;
-    }
+	private String information;
 
-    public void setAddres(Addres addres) {
-        this.addres = addres;
-    }
+	public Addres getAddres() {
+		return addres;
+	}
 
-    public Author(){}
+	public void setAddres(Addres addres) {
+		this.addres = addres;
+	}
 
-    public Author(String name) {
-        this.name = name;
-    }
+	public Author() {
+	}
 
-    @ManyToMany(mappedBy = "Authors",fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-    Set<Book> books=new HashSet<Book>();
+	public Author(String name) {
+		this.name = name;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        //type cast to goal
-        if(this==obj)return true;
-        if(obj==null|| this.getClass()!=obj.getClass())return false;
-        //the same class and not null =>could cast
-        Author author = (Author) obj;
+	@ManyToMany(mappedBy = "Authors", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	Set<Book> books = new HashSet<Book>();
 
-        //in our case 2 authores are equal when names are equals
+	@Override
+	public boolean equals(Object obj) {
+		// type cast to goal
+		if (this == obj)
+			return true;
+		if (obj == null || this.getClass() != obj.getClass())
+			return false;
+		// the same class and not null =>could cast
+		Author author = (Author) obj;
 
-        return this.name.equals(author.getName());
-    }
-    
-    @Override
+		// in our case 2 authores are equal when names are equals
+
+		return this.name.equals(author.getName());
+	}
+
+	@Override
 	public int hashCode() {
-    	//TODO: WRITE HASH CODE LOGIC HERE
+		// TODO: WRITE HASH CODE LOGIC HERE
 		return 1;
 	}
 
 	public int getId() {
-        return Id;
-    }
+		return Id;
+	}
 
-    public void setId(int id) {
-        this.Id = id;
-    }
+	public void setId(int id) {
+		this.Id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
+	public Set<Book> getBooks() {
+		return books;
+	}
 
-    public Set<Book> getBooks() {
-        return books;
-    }
+	public void setBooks(Set<Book> books) {
+		this.books = books;
+	}
 
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
-
-    public void deleteBook(Book book){
-        books.remove(book);
-    }
+	public void deleteBook(Book book) {
+		books.remove(book);
+	}
 
 	@Override
 	public String toString() {

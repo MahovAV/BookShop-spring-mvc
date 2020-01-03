@@ -10,38 +10,38 @@ import org.springframework.validation.Validator;
 
 import ru.cource.model.domain.Book;
 import ru.cource.model.domain.User;
-import ru.cource.model.service.UserServiceImpl;
+import ru.cource.model.service.UserServiceHibernateImpl;
+
 /**
- * A Validator for registration
+ * A Validator for {@link User}. A new {@link User} is valid if he has unique
+ * name and unique email and each of fields are valid
  * 
- * A new user is valid if:
- * 1.Has unique name (get all from database and check)
- * 2.Has unique email
- * IMPLEMENT!!!			
+ * @author AlexanderM-O
+ *
  */
 @Component
 public class UserValidator implements Validator {
 	private User user;
-	
+
 	@Autowired
-	UserServiceImpl service;
-	
+	UserServiceHibernateImpl service;
+
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return User.class.equals(clazz);
 	}
-	
+
 	@Override
 	public void validate(Object target, Errors errors) {
 		user = (User) target;
-		if(!user.getConfPassword().equals(user.getPassword())) {
-			errors.rejectValue("confPassword","","passwords are different");
+		if (!user.getConfPassword().equals(user.getPassword())) {
+			errors.rejectValue("confPassword", "", "passwords are different");
 		}
-		if(service.findUserByName(user.getName())!=null) {
-			errors.rejectValue("name","","user with the same name already exists");
+		if (service.findUserByName(user.getName()) != null) {
+			errors.rejectValue("name", "", "user with the same name already exists");
 		}
-		if(service.findUserByEmail(user.getName())!=null) {
-			errors.rejectValue("name","","user with the same name already exists");
+		if (service.findUserByEmail(user.getName()) != null) {
+			errors.rejectValue("name", "", "user with the same name already exists");
 		}
 	}
 
