@@ -33,11 +33,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/signUp", "/").permitAll().antMatchers("/Home", "/getAll").hasRole("USER")
-				.antMatchers("/**").hasRole("ADMIN").anyRequest().authenticated().and().formLogin().loginPage("/signIn")
-				.loginProcessingUrl("/signIn/process").defaultSuccessUrl("/Home", true)
-				// send as parametr error value and display it in user
-				.failureUrl("/signIn?error=true").permitAll();
+		http
+				.authorizeRequests()
+					.antMatchers("/signUp", "/","/images/*").permitAll()
+					.antMatchers("/Home", "/getAll").hasRole("USER")
+					.antMatchers("/DeleteBook/**,/DeleteBook/**,/DeleteBook/**").hasRole("ADMIN")
+					.anyRequest().authenticated()
+				.and()
+					.formLogin()
+					.loginPage("/signIn")
+					.loginProcessingUrl("/signIn/process")
+					.defaultSuccessUrl("/Home", true)
+					// send as parametr error value and display it in user
+					.failureUrl("/signIn?error=true")
+					.permitAll();
 	}
 
 	@Override

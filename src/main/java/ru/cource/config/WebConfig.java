@@ -2,10 +2,13 @@ package ru.cource.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -21,7 +24,11 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
  */
 @Configuration
 @EnableWebMvc
+@PropertySource("classpath:/application.properties")
 public class WebConfig implements WebMvcConfigurer {
+	@Value( "${upload.path}" )
+	String uploadPath;
+	
 	@Bean
 	public ViewResolver getViewResolver() {
 		FreeMarkerViewResolver freeMarkerViewResolver = new FreeMarkerViewResolver();
@@ -38,4 +45,11 @@ public class WebConfig implements WebMvcConfigurer {
 		return freemarkerConfigurer;
 	}
 
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry
+			.addResourceHandler("/images/**")
+			.addResourceLocations("static/images/","file:///"+uploadPath+"/");
+		
+	}
 }

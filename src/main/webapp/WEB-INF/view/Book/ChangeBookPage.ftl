@@ -1,7 +1,7 @@
 <#import "../parts/common.ftl" as c>
 <@c.page "ChangeBook">
 <h1>ChangeBookPage</h1>
-<form name="ChangeBook" action="../ChangeBook/${book.id}" method="post">
+<form name="ChangeBook" action="../ChangeBook/${book.id}" method="post" enctype="multipart/form-data">
    <input type="hidden" name="_csrf" value="${_csrf.token}" />
    <p>Name of book</p>
    <input title="Name" type="text" name="name" value="${book.name}" >
@@ -10,6 +10,8 @@
          ${nameError}
       </div>
    </#if>
+   <p>Book cover</p>
+   <input type="file" name="file">
    <p>Chose genre of book</p>
    <#list AllGenres as genre>
    		<br>

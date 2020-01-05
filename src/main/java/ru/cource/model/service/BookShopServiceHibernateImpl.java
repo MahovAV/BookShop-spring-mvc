@@ -66,6 +66,7 @@ public class BookShopServiceHibernateImpl implements BookShopServiceInterface {
 		oldBook.setGenre(newbook.getGenre());
 		oldBook.setName(newbook.getName());
 		oldBook.setInformation(newbook.getInformation());
+		oldBook.setBookCoverFileName(newbook.getBookCoverFileName());
 		// should replace authors by their already existed in database representations
 		replaceDuplicatedByNameAuthors(oldBook);
 		bookDAO.update(oldBook);

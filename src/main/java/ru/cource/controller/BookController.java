@@ -1,13 +1,18 @@
 package ru.cource.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import ru.cource.model.domain.Book;
 import ru.cource.model.domain.Genre;
@@ -34,6 +40,9 @@ import ru.cource.model.validation.BookValidator;
 @Controller
 @RequestMapping("/")
 public class BookController {
+	@Value("${upload.path}")
+	String uploadPath;
+	
     @Autowired
     BookShopServiceInterface bookShopService;
     
@@ -70,9 +79,12 @@ public class BookController {
     }
 
     @PostMapping("/CreateBook")
-    //page after which we have book
-    //should create complete book and send it to the service
-    public String creatingBook(@Valid @ModelAttribute Book book,BindingResult bindingResult,Model model) {
+    public String creatingBook(
+    		@Valid @ModelAttribute Book book,
+    		BindingResult bindingResult,
+    		Model model,
+    		@RequestParam("file") MultipartFile file
+    ) throws IllegalStateException, IOException {
     	bookValidator.validate(book, bindingResult);
     	if(bindingResult.hasErrors()) {
     		//should return our wrong  user and error message to show
@@ -81,6 +93,15 @@ public class BookController {
     		model.addAttribute("AllGenres",allGenre);
     		model.addAttribute("book",book);
     		return "Book/CreateBookPage";
+    	}
+    	
+    	if(file.getSize()!=0) {
+    		File uploadDir=new File(uploadPath);
+    		if(!uploadDir.exists()) {
+    			uploadDir.mkdir();
+    		}
+            book.setBookCoverFileName(ControllerUtils
+            		.insertFileWithoutCollisions(file,uploadPath));
     	}
         bookShopService.createBook(book);
         //book succesfully added redirect to all book
@@ -98,9 +119,16 @@ public class BookController {
         return "Book/ChangeBookPage";
     }
     @PostMapping("ChangeBook/{book_id}")
-    public String changingBook(@Valid @ModelAttribute Book newbook,BindingResult bindingResult,@PathVariable(value = "book_id") int Book_id, Model model){
-        Book oldbook=bookShopService.getBookById(Book_id);       
-        bookValidator.validate(newbook, bindingResult,oldbook);
+    public String changingBook(
+    		@Valid @ModelAttribute Book newbook,
+    		BindingResult bindingResult,
+    		@PathVariable(value = "book_id") int Book_id,
+    		Model model,
+    		@RequestParam("file") MultipartFile file
+    ) throws IllegalStateException, IOException{
+    	
+        Book oldBook=bookShopService.getBookById(Book_id);       
+        bookValidator.validate(newbook, bindingResult,oldBook);
     	if(bindingResult.hasErrors()) {
     		//should return our wrong user and error message to show
     		Map<String,String> FiledErrors=ControllerUtils.getErrors(bindingResult);
@@ -110,7 +138,11 @@ public class BookController {
     		model.addAttribute("book",newbook);
     		return "Book/ChangeBookPage";
     	}
-    	//get old book due to ID,new book is POJO
+    	if(file.getSize()!=0) {
+    		ControllerUtils.deleteFileIfExists(oldBook.getBookCoverFileName(),uploadPath);
+            newbook.setBookCoverFileName(ControllerUtils.
+            		insertFileWithoutCollisions(file,uploadPath));
+    	}    	
     	newbook.setId(Book_id);
         bookShopService.updateBook(newbook);
         return "redirect:/getAll";
@@ -119,6 +151,7 @@ public class BookController {
     @GetMapping("/DeleteBook/{book_id}")
     public String deleteBookPage(@PathVariable(value = "book_id") int Book_id,Model model) {
         //should be here only to redirect POST request with id
+    	
         model.addAttribute("Book_id",Book_id);
         return "Book/DeleteBookPage";
     }
@@ -128,6 +161,7 @@ public class BookController {
                               @PathVariable(value = "book_id") int Book_id) {
         //user have made decision delete or not book
         if(decision.equals("YES")){
+        	ControllerUtils.deleteFileIfExists(bookShopService.getBookById(Book_id).getBookCoverFileName(),uploadPath);
             bookShopService.deleteBookById(Book_id);
             return "redirect:/getAll";
         }

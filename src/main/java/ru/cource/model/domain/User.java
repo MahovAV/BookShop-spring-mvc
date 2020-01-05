@@ -42,6 +42,8 @@ public class User {
 	@NotEmpty(message = "empty password")
 	@Size(min = 4, message = "password should have 4 or more characters")
 	private String password;
+	
+	private String avatarFileName;
 
 	@Transient
 	private String confPassword;

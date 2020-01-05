@@ -43,6 +43,8 @@ public class Book {
 	private Set<Genre> genre = new HashSet<Genre>();
 
 	private String information;
+	
+	private String bookCoverFileName;
 
 	@Transient
 	private String authorError;
@@ -211,6 +213,14 @@ public class Book {
 
 	public void setInformation(String information) {
 		this.information = information;
+	}
+
+	public String getBookCoverFileName() {
+		return bookCoverFileName;
+	}
+
+	public void setBookCoverFileName(String bookCoverFileName) {
+		this.bookCoverFileName = bookCoverFileName;
 	}
 
 }

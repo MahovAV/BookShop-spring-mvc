@@ -23,6 +23,8 @@ public class Author {
 	private Addres addres;
 
 	private String information;
+	
+	private String avatarFileName;
 
 	public Addres getAddres() {
 		return addres;
