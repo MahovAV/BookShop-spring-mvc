@@ -65,7 +65,7 @@ public class BookShopServiceTest {
 	@Test
 	public void createShouldAddBookToDataBase() {
 		bookShopService.createBook(book1);
-		Book bookFromShop = bookShopService.getBookById(book1.getId());
+		Book bookFromShop = bookShopService.findBookById(book1.getId());
 		assertTrue(bookFromShop.equals(book1));
 	}
 
@@ -76,7 +76,7 @@ public class BookShopServiceTest {
 
 		bookShopService.createBook(book1);
 
-		Book persistedBook = bookShopService.getBookById(book1.getId());
+		Book persistedBook = bookShopService.findBookById(book1.getId());
 
 		Set<Author> persistedAuthors = persistedBook.getAuthors();
 
@@ -113,9 +113,9 @@ public class BookShopServiceTest {
 
 		bookShopService.updateBook(book1);
 
-		Book persistedUpdatedBook = bookShopService.getBookById(book1.getId());
-		Author author1FromDataBase = bookShopService.getAuthorByName(author1.getName());
-		Author author2FromDataBase = bookShopService.getAuthorByName(author2.getName());
+		Book persistedUpdatedBook = bookShopService.findBookById(book1.getId());
+		Author author1FromDataBase = bookShopService.findAuthorByName(author1.getName());
+		Author author2FromDataBase = bookShopService.findAuthorByName(author2.getName());
 
 		// ACTUALLY HAVE 2 DISTINCT AUTHORS AND 1 BOOK
 		// author2 has link to book and author 1 has't

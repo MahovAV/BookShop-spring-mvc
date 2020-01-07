@@ -3,18 +3,11 @@ package ru.cource.model.dao;
 import ru.cource.model.domain.Author;
 import ru.cource.model.domain.Book;
 
-import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * DAO class for {@link Book}
@@ -29,6 +22,7 @@ public class HibernateBookDao extends HibernateGenericAbstractDao<Book> {
 		super(Book.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Book getEntityById(int id) {
 		return (Book) super.getEntityById(id);
@@ -36,9 +30,7 @@ public class HibernateBookDao extends HibernateGenericAbstractDao<Book> {
 
 	@Override
 	public void update(Book entity) {
-		// should throw exception if there is no book with that id
 		session = factory.getCurrentSession();
-
 		session.update(entity);
 	}
 
@@ -54,10 +46,10 @@ public class HibernateBookDao extends HibernateGenericAbstractDao<Book> {
 	@Override
 	public void create(Book entity) {
 		session = factory.getCurrentSession();
-
 		session.save(entity);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Book getByName(String name) {
 		Book Data;
 		session = factory.getCurrentSession();
@@ -67,6 +59,7 @@ public class HibernateBookDao extends HibernateGenericAbstractDao<Book> {
 		return Data;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Book> getAll() {
 		List<Book> Data;

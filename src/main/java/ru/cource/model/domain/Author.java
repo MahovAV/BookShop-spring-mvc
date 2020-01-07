@@ -23,7 +23,7 @@ public class Author {
 	private Addres addres;
 
 	private String information;
-	
+
 	private String avatarFileName;
 
 	public Addres getAddres() {
@@ -46,23 +46,17 @@ public class Author {
 
 	@Override
 	public boolean equals(Object obj) {
-		// type cast to goal
 		if (this == obj)
 			return true;
 		if (obj == null || this.getClass() != obj.getClass())
 			return false;
-		// the same class and not null =>could cast
 		Author author = (Author) obj;
-
-		// in our case 2 authores are equal when names are equals
-
 		return this.name.equals(author.getName());
 	}
 
 	@Override
 	public int hashCode() {
-		// TODO: WRITE HASH CODE LOGIC HERE
-		return 1;
+		return this.name.hashCode();
 	}
 
 	public int getId() {
@@ -106,4 +100,14 @@ public class Author {
 	public void setInformation(String information) {
 		this.information = information;
 	}
+
+	public String getAvatarFileName() {
+		return avatarFileName;
+	}
+
+	public void setAvatarFileName(String avatarFileName) {
+		this.avatarFileName = avatarFileName;
+	}
+	
+	
 }

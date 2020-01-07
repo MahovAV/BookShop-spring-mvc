@@ -42,7 +42,7 @@ public class BookValidatorTest {
 	@Test
 	public void validateShouldAcceptWithCorrectAuthorStringAndName() {
 		// there is no such book in data base
-		when(mockService.getBookByName(nameOfBook)).thenReturn(null);
+		when(mockService.findBookByName(nameOfBook)).thenReturn(null);
 		// perform action
 		Errors errors = mock(Errors.class);
 		validator.validate(book, errors);
@@ -52,7 +52,7 @@ public class BookValidatorTest {
 	@Test
 	public void validateShouldRejectWithTakenName() {
 		// have book
-		when(mockService.getBookByName(nameOfBook)).thenReturn(new Book());
+		when(mockService.findBookByName(nameOfBook)).thenReturn(new Book());
 		// perform action
 		Errors errors = mock(Errors.class);
 		validator.validate(book, errors);
@@ -62,7 +62,7 @@ public class BookValidatorTest {
 	@Test
 	public void validateShouldRejectWithWrongAuthor() {
 		// have book
-		when(mockService.getBookByName(nameOfBook)).thenReturn(new Book());
+		when(mockService.findBookByName(nameOfBook)).thenReturn(new Book());
 		when(book.getAuthorError()).thenReturn("SomeString");
 		// perform action
 		Errors errors = mock(Errors.class);

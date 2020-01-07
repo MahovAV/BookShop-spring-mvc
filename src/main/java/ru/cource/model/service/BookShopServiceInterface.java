@@ -15,11 +15,11 @@ import ru.cource.model.domain.Book;
 public interface BookShopServiceInterface {
 	public void createBook(Book book);
 
-	public Book getBookById(int id);
+	public Book findBookById(int id);
 
-	public Book getBookByName(String Name);
+	public Book findBookByName(String Name);
 
-	public Author getAuthorByName(String Name);
+	public Author findAuthorByName(String Name);
 
 	public List<Book> GetAllBook();
 

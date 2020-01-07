@@ -3,11 +3,9 @@ package ru.cource.model.validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import ru.cource.model.domain.Book;
-import ru.cource.model.service.BookShopServiceHibernateImpl;
 import ru.cource.model.service.BookShopServiceInterface;
 
 /**
@@ -47,7 +45,7 @@ public class BookValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		baseValidate(target, errors);
-		if (service.getBookByName(book.getName()) != null) {
+		if (service.findBookByName(book.getName()) != null) {
 			// if book exist in data base hence book has name and we wont have 2 errors at
 			// the same time
 			errors.rejectValue("name", "", "Book is alreary exist");
@@ -67,7 +65,7 @@ public class BookValidator implements Validator {
 		if (book.getName().equals(oldBook.getName()))
 			return;
 		// book have different names should check is it try to replace another book
-		if (service.getBookByName(book.getName()) != null) {
+		if (service.findBookByName(book.getName()) != null) {
 			errors.rejectValue("name", "", "Cannot replace book");
 		}
 	}

@@ -3,12 +3,8 @@ package ru.cource.model.dao;
 import java.util.List;
 
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import ru.cource.model.domain.Author;
-import ru.cource.model.domain.Book;
 import ru.cource.model.domain.User;
 
 /**
@@ -25,6 +21,7 @@ public class HibernateUserDao extends HibernateGenericAbstractDao<User> {
 		super(User.class);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public List getAll() {
 		List<User> Data;
@@ -51,7 +48,8 @@ public class HibernateUserDao extends HibernateGenericAbstractDao<User> {
 		session = factory.getCurrentSession();
 		session.save(entity);
 	}
-
+	
+	@SuppressWarnings("rawtypes")
 	public User getByName(String name) {
 		User Data;
 		session = factory.getCurrentSession();
@@ -60,7 +58,7 @@ public class HibernateUserDao extends HibernateGenericAbstractDao<User> {
 		Data = (User) query.uniqueResult();
 		return Data;
 	}
-
+	@SuppressWarnings({"rawtypes" })
 	public User getByEmail(String email) {
 		User Data;
 		session = factory.getCurrentSession();

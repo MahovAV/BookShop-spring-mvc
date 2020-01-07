@@ -1,10 +1,7 @@
 package ru.cource.model.dao;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import javax.transaction.Transactional;
-
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -29,33 +26,17 @@ public class HibernateAuthorDao extends HibernateGenericAbstractDao<Author> {
 	@Override
 	public void update(Author entity) {
 		session = factory.getCurrentSession();
-		Author oldAuthor = session.get(Author.class, entity.getId());
-		Set<Book> oldBooks = oldAuthor.getBooks();
-		Set<Book> NewBooks = entity.getBooks();
-		for (Book oldBook : oldBooks) {
-			if (NewBooks == null || !NewBooks.contains(oldBook)) {
-				// should change author and merge him
-				oldBook.deleteAuthor(entity);
-			}
-		}
-		session.merge(entity);
+
+		session.update(entity);
 	}
 
 	@Override
 	public void delete(int id) {
 		session = factory.getCurrentSession();
-		// cannot execute it in open session!!!
-		Book deletingBook = session.get(Book.class, id);
-		Set<Author> authors = deletingBook.getAuthors();
-		for (Author a : authors) {
-			a.deleteBook(deletingBook);
-			// NO NEED MERGE HERE AS WE WILL COMMIT
-			// AUTOMATICLY WILL MANAGE IT VIA DIRTY CHECKING
-		}
-
-		// dont have relation ship with not existed book
-		// could delete book
-		session.delete(deletingBook);
+		Author deletingAuthor = session.get(Author.class, id);
+		deletingAuthor.setBooks(new HashSet<Book>());
+		session.flush();
+		session.delete(deletingAuthor);
 	}
 
 	@Override
@@ -64,6 +45,7 @@ public class HibernateAuthorDao extends HibernateGenericAbstractDao<Author> {
 		session.save(entity);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public List<Author> getAll() {
 		List<Author> Data;
@@ -73,6 +55,7 @@ public class HibernateAuthorDao extends HibernateGenericAbstractDao<Author> {
 		return Data;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Author getByName(String name) {
 		Author Data;
 		session = factory.getCurrentSession();

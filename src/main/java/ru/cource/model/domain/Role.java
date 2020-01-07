@@ -1,7 +1,7 @@
 package ru.cource.model.domain;
 
 /**
- * Enum representing an User.
+ * Enum representing an Role.
  * 
  * @author AlexanderM-O
  *

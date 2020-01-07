@@ -1,18 +1,8 @@
 package ru.cource.model.dao;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.Entity;
-import javax.transaction.Transactional;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import ru.cource.model.domain.Author;
-import ru.cource.model.domain.Book;
 
 /**
  * Encapsulate hibernate basic stuff
@@ -32,6 +22,7 @@ public abstract class HibernateGenericAbstractDao<E> implements Dao<E> {
 		this.entityClass = entityClass;
 	}
 
+	@SuppressWarnings({ "unchecked", "hiding" })
 	@Override
 	public <E> E getEntityById(int id) {
 		return (E) factory.getCurrentSession().get(entityClass, id);

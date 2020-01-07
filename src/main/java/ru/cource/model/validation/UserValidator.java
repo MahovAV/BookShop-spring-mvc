@@ -1,14 +1,10 @@
 package ru.cource.model.validation;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import ru.cource.model.domain.Book;
 import ru.cource.model.domain.User;
 import ru.cource.model.service.UserServiceHibernateImpl;
 
@@ -41,7 +37,7 @@ public class UserValidator implements Validator {
 			errors.rejectValue("name", "", "user with the same name already exists");
 		}
 		if (service.findUserByEmail(user.getName()) != null) {
-			errors.rejectValue("name", "", "user with the same name already exists");
+			errors.rejectValue("name", "", "user with the same email already exists");
 		}
 	}
 

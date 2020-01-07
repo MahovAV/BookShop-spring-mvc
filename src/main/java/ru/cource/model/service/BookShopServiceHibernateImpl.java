@@ -1,6 +1,5 @@
 package ru.cource.model.service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,15 +39,15 @@ public class BookShopServiceHibernateImpl implements BookShopServiceInterface {
 		bookDAO.create(book);
 	}
 
-	public Book getBookById(int id) {
+	public Book findBookById(int id) {
 		return bookDAO.getEntityById(id);
 	}
 
-	public Book getBookByName(String Name) {
+	public Book findBookByName(String Name) {
 		return bookDAO.getByName(Name);
 	}
 
-	public Author getAuthorByName(String Name) {
+	public Author findAuthorByName(String Name) {
 		return authorDAO.getByName(Name);
 	}
 

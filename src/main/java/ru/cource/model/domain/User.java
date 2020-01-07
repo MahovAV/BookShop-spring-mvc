@@ -56,6 +56,16 @@ public class User {
 
 	public User() {
 	};
+	/**
+	 * Used for getting data from form and fill User field 
+	 * @param role
+	 */
+	public void setRole(String role) {
+		if (role.equals("admin")) {
+			roles.add(Role.ADMIN);
+		}
+		roles.add(Role.USER);
+	}
 
 	public int getId() {
 		return Id;
@@ -76,15 +86,7 @@ public class User {
 	public Set<Role> getRoles() {
 		return roles;
 	}
-
-	// used for view
-	public void setRole(String role) {
-		if (role.equals("admin")) {
-			roles.add(Role.ADMIN);
-		}
-		roles.add(Role.USER);
-	}
-
+	
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
@@ -115,21 +117,25 @@ public class User {
 
 	@Override
 	public boolean equals(Object obj) {
-		// type cast to goal
 		if (this == obj)
 			return true;
 		if (obj == null || this.getClass() != obj.getClass())
 			return false;
-		// the same class and not null =>could cast
 		User user = (User) obj;
-
 		return (this.email.equals(user.email) && this.name.equals(user.name) && this.roles.equals(user.roles));
 	}
 
 	@Override
 	public int hashCode() {
-		// TODO: WRITE HASH CODE LOGIC HERE
-		return 1;
+		return name.hashCode();
+	}
+
+	public String getAvatarFileName() {
+		return avatarFileName;
+	}
+
+	public void setAvatarFileName(String avatarFileName) {
+		this.avatarFileName = avatarFileName;
 	}
 
 }

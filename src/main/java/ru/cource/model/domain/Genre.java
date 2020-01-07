@@ -1,7 +1,7 @@
 package ru.cource.model.domain;
 
 /**
- * Enum representing an Genre.
+ * Enum representing a Genre.
  * 
  * @author AlexanderM-O
  *

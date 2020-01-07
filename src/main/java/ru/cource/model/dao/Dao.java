@@ -1,6 +1,5 @@
 package ru.cource.model.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,6 +12,7 @@ import java.util.List;
 public interface Dao<E> {
 	public List<E> getAll();
 
+	@SuppressWarnings("hiding")
 	public <E> E getEntityById(int id);
 
 	public void update(E entity);
