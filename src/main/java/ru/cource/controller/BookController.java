@@ -54,26 +54,12 @@ public class BookController {
     												  .map(en->en.name())
     			                                      .collect(Collectors.toSet());
     }
-    
-    static void addErrorsAndBookToModel(BindingResult bindingResult,Book book,Model model) {
-		Map<String,String> FiledErrors=ControllerUtils.getErrors(bindingResult);
-		model.mergeAttributes(FiledErrors);
-		model.addAttribute("AllGenres",allGenre);
-		model.addAttribute("book",book);
-    }
-    
-    @GetMapping("/Home")
-    public String home(@AuthenticationPrincipal User user,Model model){
-    	model.addAttribute("user", user);
-        return "HomePage";
-    }
 
-    @GetMapping("/getAll")
-    public String getAllUsers(Model model){
+    @GetMapping("/getAllBook")
+    public String getAllBook(Model model){
         model.addAttribute("books",bookShopService.GetAllBook());
         return "Book/AllBooks";
     }
-
 
     @GetMapping("/CreateBook")
     public String createBookPage(Model model){
@@ -90,19 +76,17 @@ public class BookController {
     ) throws IllegalStateException, IOException {
     	bookValidator.validate(book, bindingResult);
     	if(bindingResult.hasErrors()) {
-    		addErrorsAndBookToModel(bindingResult,book,model);
+    		model.addAttribute("AllGenres",allGenre);
+    		ControllerUtils.addErrorsAndObjectToModel(bindingResult, book, "book", model);
     		return "Book/CreateBookPage";
     	}
     	if(file.getSize()!=0) {
-    		File uploadDir=new File(uploadPath);
-    		if(!uploadDir.exists()) {
-    			uploadDir.mkdir();
-    		}
+    		ControllerUtils.createDirectoryIfNotExists(uploadPath);
             book.setBookCoverFileName(ControllerUtils
             		.insertFileWithoutCollisions(file,uploadPath));
     	}
         bookShopService.createBook(book);
-        return "redirect:/getAll";
+        return "redirect:/getAllBook";
     }
 
     @GetMapping("ChangeBook/{book_id}")
@@ -124,16 +108,18 @@ public class BookController {
         Book oldBook=bookShopService.findBookById(Book_id);       
         bookValidator.validate(newbook, bindingResult,oldBook);
     	if(bindingResult.hasErrors()) {
-    		addErrorsAndBookToModel(bindingResult,newbook,model);
+    		model.addAttribute("AllGenres",allGenre);
+    		ControllerUtils.addErrorsAndObjectToModel(bindingResult, newbook, "book", model);
     		return "Book/ChangeBookPage";
     	}
     	if(file.getSize()!=0) {
+    		ControllerUtils.createDirectoryIfNotExists(uploadPath);
     		ControllerUtils.deleteFileIfExists(oldBook.getBookCoverFileName(),uploadPath);
             newbook.setBookCoverFileName(ControllerUtils.
             		insertFileWithoutCollisions(file,uploadPath));
     	}    	
         bookShopService.updateBook(newbook);
-        return "redirect:/getAll";
+        return "redirect:/getAllBook";
     }
 
     @GetMapping("/DeleteBook/{book_id}")
@@ -150,9 +136,9 @@ public class BookController {
         if(decision.equals("YES")){
         	ControllerUtils.deleteFileIfExists(bookShopService.findBookById(Book_id).getBookCoverFileName(),uploadPath);
             bookShopService.deleteBookById(Book_id);
-            return "redirect:/getAll";
+            return "redirect:/getAllBook";
         }
-        return "redirect:/getAll";
+        return "redirect:/getAllBook";
     }
 }
 

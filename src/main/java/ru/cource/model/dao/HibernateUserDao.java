@@ -48,7 +48,7 @@ public class HibernateUserDao extends HibernateGenericAbstractDao<User> {
 		session = factory.getCurrentSession();
 		session.save(entity);
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public User getByName(String name) {
 		User Data;
@@ -58,7 +58,8 @@ public class HibernateUserDao extends HibernateGenericAbstractDao<User> {
 		Data = (User) query.uniqueResult();
 		return Data;
 	}
-	@SuppressWarnings({"rawtypes" })
+
+	@SuppressWarnings({ "rawtypes" })
 	public User getByEmail(String email) {
 		User Data;
 		session = factory.getCurrentSession();

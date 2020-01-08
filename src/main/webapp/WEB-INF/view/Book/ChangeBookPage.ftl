@@ -11,6 +11,13 @@
       </div>
    </#if>
    <p>Book cover</p>
+   <div>
+	   <#if book.bookCoverFileName??>
+		   <img src="../images/${book.bookCoverFileName}" width="100" height="150"/>
+		   			<#else>
+		   <img src="../images/no-image.jpg" width="100" height="150"/>
+	   </#if>
+   </div>
    <input type="file" name="file">
    <p>Chose genre of book</p>
    <#list AllGenres as genre>

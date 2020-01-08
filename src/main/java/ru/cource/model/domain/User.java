@@ -42,7 +42,7 @@ public class User {
 	@NotEmpty(message = "empty password")
 	@Size(min = 4, message = "password should have 4 or more characters")
 	private String password;
-	
+
 	private String avatarFileName;
 
 	@Transient
@@ -56,8 +56,10 @@ public class User {
 
 	public User() {
 	};
+
 	/**
-	 * Used for getting data from form and fill User field 
+	 * Used for getting data from form and fill User field
+	 * 
 	 * @param role
 	 */
 	public void setRole(String role) {
@@ -86,7 +88,7 @@ public class User {
 	public Set<Role> getRoles() {
 		return roles;
 	}
-	
+
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
@@ -115,6 +117,14 @@ public class User {
 		this.confPassword = confPassword;
 	}
 
+	public String getAvatarFileName() {
+		return avatarFileName;
+	}
+
+	public void setAvatarFileName(String avatarFileName) {
+		this.avatarFileName = avatarFileName;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -128,14 +138,6 @@ public class User {
 	@Override
 	public int hashCode() {
 		return name.hashCode();
-	}
-
-	public String getAvatarFileName() {
-		return avatarFileName;
-	}
-
-	public void setAvatarFileName(String avatarFileName) {
-		this.avatarFileName = avatarFileName;
 	}
 
 }

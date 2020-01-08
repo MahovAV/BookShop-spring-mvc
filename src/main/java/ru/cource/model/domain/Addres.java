@@ -27,4 +27,10 @@ public class Addres {
 	public void setPlace(String place) {
 		this.place = place;
 	}
+
+	@Override
+	public String toString() {
+		return place;
+	}
+
 }

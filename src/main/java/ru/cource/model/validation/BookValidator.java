@@ -46,9 +46,7 @@ public class BookValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		baseValidate(target, errors);
 		if (service.findBookByName(book.getName()) != null) {
-			// if book exist in data base hence book has name and we wont have 2 errors at
-			// the same time
-			errors.rejectValue("name", "", "Book is alreary exist");
+			errors.rejectValue("name", "", "Book with the same name is alreary exist");
 		}
 	}
 

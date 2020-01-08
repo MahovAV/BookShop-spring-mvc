@@ -1,35 +1,33 @@
 <#import "../parts/common.ftl" as c>
-<@c.page "All Books">
+<@c.page "All Authors">
 	<p><a href="Home">HOME</a></p>
-    <h1>List of all books</h1>
-    <p><a href="CreateBook">ADD NEW BOOK</a></p>    
+    <h1>List of all authors</h1>
+    <p><strong>You cannot create author without book</strong></p>    
     <table border="3px" align="center" style="width:95%;">
     <tbody>
         <tr>
             <td colspan="5" align="left" >List of all books</td>
         </tr>
         <tr>
-            <td><strong><em>Book Cover</em><br /></strong></td>
+            <td><strong><em>Avatar</em><br /></strong></td>
             <td><strong><em>Name</em></strong></td>
             <td><strong><em>Change</em></strong></td>
             <td><strong><em>Delete</em></strong></td>
         </tr>
-        <#list books as book>
+        <#list authors as author>
         <tr>
             <td>
-	        	<#if book.bookCoverFileName??>
-	   				<img src="images/${book.bookCoverFileName}" width="100" height="150"/>
+	        	<#if author.avatarFileName??>
+	   				<img src="images/${author.avatarFileName}" width="100" height="150"/>
 	   			<#else>
 	   				<img src="images/no-image.jpg" width="100" height="150"/>
 	   			</#if>
    			</td>
-            <td>${book.name}</td>
-			<td><a href="ChangeBook/${book.id}">Change</a></td>
-			<td><a href="DeleteBook/${book.id}">Delete</a></td>
+            <td>${author.name}</td>
+			<td><a href="ChangeAuthor/${author.id}">Change</a></td>
+			<td><a href="DeleteAuthor/${author.id}">Delete</a></td>
         </tr>
         </#list>
     </tbody>
 </table>
 </@c.page>
-
-

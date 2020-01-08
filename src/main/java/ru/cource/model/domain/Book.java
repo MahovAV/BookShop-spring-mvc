@@ -49,13 +49,14 @@ public class Book {
 	public Book(String name) {
 		this.name = name;
 	}
+
 	/**
-	 * Used for getting data from form and fill book field 
+	 * Used to get data from form and fill book field
 	 * 
 	 * @param Authors
 	 */
 	public void setInputedAuthor(String Authors) {
-		authorError = validInputedAuthor(Authors);
+		authorError = DomainRepresentationUtils.validCommaSeparated(Authors);
 
 		if (authorError == null) {
 			this.Authors = convertStringToAuthors(Authors);
@@ -65,7 +66,7 @@ public class Book {
 	}
 
 	/**
-	 * Used for getting data from form and fill book field 
+	 * Used for getting data from form and fill book field
 	 * 
 	 * @param checkboxValues
 	 */
@@ -75,6 +76,7 @@ public class Book {
 
 	/**
 	 * Used to put data to model
+	 * 
 	 * @return string representation of genres
 	 */
 	public Set<String> getStringsFromCheckedGenres() {
@@ -83,6 +85,7 @@ public class Book {
 
 	/**
 	 * Used to put data to model
+	 * 
 	 * @return string representation of authors
 	 */
 	public String getStringFromAuthors() {
@@ -92,7 +95,7 @@ public class Book {
 		}
 		return (result.length() > 0) ? result.substring(0, result.length() - 1) : "";
 	}
-	
+
 	private static Set<Author> convertStringToAuthors(String authors) {
 		if (authors != null) {
 			authors.replaceAll(" ", "");
@@ -109,30 +112,14 @@ public class Book {
 			return new HashSet<Genre>();
 	}
 
-	/**
-	 * Used to get error message for following validation.If there is no error
-	 * return null
-	 * 
-	 * @param authors
-	 * @return error message
-	 */
-	private String validInputedAuthor(String authors) {
-		for (int i = 0; i < authors.length(); ++i) {
-			if (authors.charAt(i) == ',') {
-				if (i == authors.length() - 1 || authors.charAt(i + 1) == ',') {
-					return "invalid string";
-				}
-			}
-		}
-		List<String> listWithDuplicates = Arrays.asList(authors.split(",")).stream().collect(Collectors.toList());
-		List<String> listWithoutDuplicates = listWithDuplicates.stream().distinct().collect(Collectors.toList());
-		if (listWithDuplicates.size() != listWithoutDuplicates.size()) {
-			return "there is dublicates in string";
-		}
-
-		return null;
+	public void addAuthor(Author a) {
+		Authors.add(a);
 	}
-	
+
+	public void removeAuthor(Author a) {
+		Authors.remove(a);
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}

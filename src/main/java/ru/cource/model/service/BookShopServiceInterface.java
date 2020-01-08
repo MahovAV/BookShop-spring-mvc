@@ -21,11 +21,15 @@ public interface BookShopServiceInterface {
 
 	public Author findAuthorByName(String Name);
 
+	public Author findAuthorById(int id);
+
 	public List<Book> GetAllBook();
 
 	public List<Author> GetAllAuthors();
 
 	public void updateBook(Book book);
+
+	public void updateAuthor(Author author);
 
 	public void deleteBookById(int id);
 }
