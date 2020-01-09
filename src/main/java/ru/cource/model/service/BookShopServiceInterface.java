@@ -32,4 +32,6 @@ public interface BookShopServiceInterface {
 	public void updateAuthor(Author author);
 
 	public void deleteBookById(int id);
+	
+	public void deleteAuthorById(int id);
 }

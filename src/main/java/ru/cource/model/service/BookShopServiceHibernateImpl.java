@@ -3,7 +3,6 @@ package ru.cource.model.service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -79,8 +78,7 @@ public class BookShopServiceHibernateImpl implements BookShopServiceInterface {
 	}
 
 	/**
-	 * Used to load stored in database entities and persist if we cannot use
-	 * cascade.
+	 * Used to load stored in database entities and persist new entities them.
 	 * 
 	 * @param entity
 	 */
@@ -140,5 +138,10 @@ public class BookShopServiceHibernateImpl implements BookShopServiceInterface {
 
 	public void deleteBookById(int id) {
 		bookDAO.delete(id);
+	}
+
+	@Override
+	public void deleteAuthorById(int id) {
+		authorDAO.delete(id);
 	}
 }
