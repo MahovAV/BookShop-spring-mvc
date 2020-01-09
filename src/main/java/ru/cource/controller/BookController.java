@@ -136,7 +136,6 @@ public class BookController {
         if(decision.equals("YES")){
         	ControllerUtils.deleteFileIfExists(bookShopService.findBookById(Book_id).getBookCoverFileName(),uploadPath);
             bookShopService.deleteBookById(Book_id);
-            return "redirect:/getAllBook";
         }
         return "redirect:/getAllBook";
     }

@@ -70,5 +70,23 @@ public class AuthorController {
 		bookShopService.updateAuthor(newAuthor);
 		return "redirect:/getAllAuthor";
 	}
+	
+	@GetMapping("/DeleteAuthor/{author.id}")
+    public String deleteAuthorPage(@PathVariable(value = "author.id") int author_id,Model model) {
+        //Ask user "are you sure"
+        model.addAttribute("author_id",author_id);
+        return "Author/DeleteAuthorPage";
+    }
+
+    @PostMapping("/DeleteAuthor/{author.id}")
+    public String deletingBook(@RequestParam(value = "descition", required = false) String decision,
+                              @PathVariable(value = "author.id") int author_id) {
+        //user have made decision delete or not author
+        if(decision.equals("YES")){
+        	ControllerUtils.deleteFileIfExists(bookShopService.findAuthorById(author_id).getAvatarFileName(),uploadPath);
+            bookShopService.deleteAuthorById(author_id);
+        }
+        return "redirect:/getAllAuthor";
+    }
 
 }

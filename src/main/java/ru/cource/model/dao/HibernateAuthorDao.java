@@ -34,7 +34,9 @@ public class HibernateAuthorDao extends HibernateGenericAbstractDao<Author> {
 	public void delete(int id) {
 		session = factory.getCurrentSession();
 		Author deletingAuthor = session.get(Author.class, id);
-		deletingAuthor.setBooks(new HashSet<Book>());
+		for(Book b:deletingAuthor.getBooks()) {
+			b.removeAuthor(deletingAuthor);
+		}
 		session.flush();
 		session.delete(deletingAuthor);
 	}
