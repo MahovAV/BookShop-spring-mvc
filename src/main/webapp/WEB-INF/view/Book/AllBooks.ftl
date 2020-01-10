@@ -1,35 +1,75 @@
 <#import "../parts/common.ftl" as c>
-<@c.page "All Books">
-	<p><a href="Home">HOME</a></p>
-    <h1>List of all books</h1>
-    <p><a href="CreateBook">ADD NEW BOOK</a></p>    
-    <table border="3px" align="center" style="width:95%;">
-    <tbody>
-        <tr>
-            <td colspan="5" align="left" >List of all books</td>
-        </tr>
-        <tr>
-            <td><strong><em>Book Cover</em><br /></strong></td>
-            <td><strong><em>Name</em></strong></td>
-            <td><strong><em>Change</em></strong></td>
-            <td><strong><em>Delete</em></strong></td>
-        </tr>
-        <#list books as book>
-        <tr>
-            <td>
-	        	<#if book.bookCoverFileName??>
-	   				<img src="images/${book.bookCoverFileName}" width="100" height="150"/>
-	   			<#else>
-	   				<img src="images/no-image.jpg" width="100" height="150"/>
-	   			</#if>
-   			</td>
-            <td>${book.name}</td>
-			<td><a href="ChangeBook/${book.id}">Change</a></td>
-			<td><a href="DeleteBook/${book.id}">Delete</a></td>
-        </tr>
-        </#list>
-    </tbody>
-</table>
-</@c.page>
+<@c.page "Welcome Page">
+<div class="row">
 
+      <div class="col-lg-3">
+
+        <h1 class="my-4">Book Shop</h1>
+        <#list AllGenres as genre>
+        <div class="list-group">
+          <a href="#" class="list-group-item">${genre}</a>
+        </div>
+   		</#list>
+
+      </div>
+      <!-- /.col-lg-3 -->
+
+      <div class="col-lg-9">
+
+        <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="First slide">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+              <img class="d-block img-fluid" src="http://placehold.it/900x350" alt="Third slide">
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+
+        <div class="row">
+        <!--  FIRST FIVE BOOKS  -->
+		<#list books as book>
+          <div class="col-lg-4 col-md-4 mb-6">
+            <div class="card h-100">
+              <a href="#"><img class="card-img-top" src="<#if book.bookCoverFileName??>
+              												images/${book.bookCoverFileName} 
+              											<#else> 
+              												images/no-image.jpg 
+              											</#if>" height="300"   alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="#">${book.name}</a>
+                </h4>
+                <p class="card-text">${book.information}</p>
+              </div>
+            </div>
+          </div>
+		</#list>
+		
+        </div>
+        <!-- /.row -->
+
+      </div>
+      <!-- /.col-lg-9 -->
+
+    </div>
+
+</@c.page>
 

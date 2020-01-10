@@ -12,7 +12,8 @@
 		<title>${nameOfTitle}</title>
 	</head>
 	<body>
-		<div class="container">
+		<#include "NavBar.ftl">
+		<div class="container mt-5">
 			<#nested>
 		</div>
 		<!-- Optional JavaScript -->

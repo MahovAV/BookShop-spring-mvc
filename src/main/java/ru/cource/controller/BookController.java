@@ -58,6 +58,7 @@ public class BookController {
     @GetMapping("/getAllBook")
     public String getAllBook(Model model){
         model.addAttribute("books",bookShopService.GetAllBook());
+        model.addAttribute("AllGenres",allGenre);
         return "Book/AllBooks";
     }
 

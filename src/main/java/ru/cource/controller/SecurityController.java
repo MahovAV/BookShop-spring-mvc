@@ -30,11 +30,6 @@ public class SecurityController {
 	UserServiceInterface userService;
 	@Autowired
 	UserValidator userValidator;
-	
-    @GetMapping("/")
-    public String welcomePage(){
-        return "WelcomePage";
-    }
     
     @GetMapping(value = "/signUp")
     public String registrationPage(){
